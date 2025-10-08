@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".InformeFragment">
 
-        <TextView
-            android:layout_width="wrap_content"
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/segmentedButtonsInforme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/toggleButton1"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:text="@string/large_text"/>
+            android:layout_weight="1"
+            android:insetLeft="@dimen/margin"
+            android:text="@string/toggle_button_label1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/toggleButton2"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:insetRight="@dimen/margin"
+            android:text="@string/toggle_button_label2" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
 
 </ScrollView>

@@ -97,4 +97,6 @@
     <string name="label_menu_item5">Configuracion</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="toggle_button_label1">Ingresos</string>
+    <string name="toggle_button_label2">Gastos</string>
 </resources>

@@ -23,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
     private List<Fragment> fragments = new ArrayList<>();
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCurrentFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout,fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, fragment).commit();
     }
 
     private void loadFragments() {

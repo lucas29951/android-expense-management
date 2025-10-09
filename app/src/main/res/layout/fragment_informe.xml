@@ -6,31 +6,61 @@
     android:layout_height="match_parent"
     tools:context=".InformeFragment">
 
-
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/segmentedButtonsInforme"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:singleSelection="true">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/toggleButton1"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/segmentedButtonsInforme"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:insetLeft="@dimen/margin"
-            android:text="@string/toggle_button_label1" />
+            app:singleSelection="true">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/toggleButton2"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="0dp"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/toggleButton1"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:insetLeft="@dimen/margin"
+                android:text="@string/toggle_button_label1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/toggleButton2"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:insetRight="@dimen/margin"
+                android:text="@string/toggle_button_label2" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <com.google.android.material.button.MaterialSplitButton
+            android:id="@+id/splitButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:insetRight="@dimen/margin"
-            android:text="@string/toggle_button_label2" />
-    </com.google.android.material.button.MaterialButtonToggleGroup>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/segmentedButtonsInforme"
+            android:layout_marginEnd="@dimen/margin">
+
+            <Button
+                android:id="@+id/mainButton"
+                style="?attr/materialSplitButtonLeadingFilledStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_label_periodo"
+                app:icon="@drawable/today_24px" />
+
+            <Button
+                android:id="@+id/trailingButton"
+                style="?attr/materialSplitButtonIconFilledStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/m3_split_button_chevron_avd" />
+
+        </com.google.android.material.button.MaterialSplitButton>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </ScrollView>

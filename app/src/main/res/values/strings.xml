@@ -99,4 +99,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="toggle_button_label1">Ingresos</string>
     <string name="toggle_button_label2">Gastos</string>
+    <string name="default_label_periodo">Mes</string>
+    <string name="menu_informe_opcion_texto_1">Dia</string>
+    <string name="menu_informe_opcion_texto_2">Semana</string>
+    <string name="menu_informe_opcion_texto_3">Mes</string>
+    <string name="menu_informe_opcion_texto_4">Periodo</string>
 </resources>

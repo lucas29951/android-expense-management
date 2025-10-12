@@ -104,4 +104,8 @@
     <string name="menu_informe_opcion_texto_2">Mensual</string>
     <string name="menu_informe_opcion_texto_3">Anual</string>
     <string name="menu_informe_opcion_texto_4">Periodo</string>
+    <string name="titulo_informe_principal">Gastos Por Categorias
+    </string>
+    <string name="titulo_informe_secundario">Gastos</string>
+    <string name="total_informe">$1,234</string>
 </resources>

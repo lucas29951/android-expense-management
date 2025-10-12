@@ -35,6 +35,16 @@
                 android:text="@string/toggle_button_label2" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
+        <FrameLayout
+            android:id="@+id/filtrosFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/segmentedButtonsInforme" />
+
         <com.google.android.material.button.MaterialSplitButton
             android:id="@+id/splitButton"
             android:layout_width="wrap_content"

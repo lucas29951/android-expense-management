@@ -96,7 +96,8 @@
     <string name="label_menu_item4">Informe</string>
     <string name="label_menu_item5">Configuracion</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- STRINGS INFORME VIEW -->
     <string name="toggle_button_label1">Ingresos</string>
     <string name="toggle_button_label2">Gastos</string>
     <string name="default_label_periodo">Mensual</string>
@@ -108,4 +109,9 @@
     </string>
     <string name="titulo_informe_secundario">Gastos</string>
     <string name="total_informe">$1,234</string>
+
+    <!-- STRINGS RESUME VIEW -->
+    <string name="resume_title">Resumen</string>
+    <string name="total_subtitle">Saldo total</string>
+    <string name="total_amount">$1,234.56</string>
 </resources>

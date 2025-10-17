@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f003e338e5e9d17b8a1cfba76a798102",
+    "identityHash": "ca3c6fad3c79cf05a53c171e337d9d64",
     "entities": [
       {
         "tableName": "categorias",
@@ -143,7 +143,7 @@
       },
       {
         "tableName": "transacciones",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `monto` REAL NOT NULL, `fecha_hora` TEXT, `comentario` TEXT, `tipo_transaccion` TEXT, `id_categoria` INTEGER NOT NULL, `id_cuenta_origen` INTEGER NOT NULL, `id_cuenta_destino` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `monto` REAL NOT NULL, `fecha_hora` TEXT, `comentario` TEXT, `tipo_transaccion` TEXT, `id_categoria` INTEGER NOT NULL, `id_cuenta_origen` INTEGER NOT NULL, `id_cuenta_destino` INTEGER NOT NULL, FOREIGN KEY(`id_categoria`) REFERENCES `categorias`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`id_cuenta_origen`) REFERENCES `cuentas`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`id_cuenta_destino`) REFERENCES `cuentas`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -196,12 +196,47 @@
           "columnNames": [
             "id"
           ]
-        }
+        },
+        "foreignKeys": [
+          {
+            "table": "categorias",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "id_categoria"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "cuentas",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "id_cuenta_origen"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "cuentas",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "id_cuenta_destino"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f003e338e5e9d17b8a1cfba76a798102')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ca3c6fad3c79cf05a53c171e337d9d64')"
     ]
   }
 }

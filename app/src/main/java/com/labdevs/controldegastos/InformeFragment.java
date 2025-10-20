@@ -6,11 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -18,17 +18,22 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.android.material.button.MaterialButton;
+import com.labdevs.controldegastos.data.entity.Transaccion;
 
-import java.text.BreakIterator;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class InformeFragment extends Fragment {
 
     private LocalDate fecha;
     private FiltroGeneralFragment filtroGen;
     private Fragment filtroPeriodo;
+    private AppViewModel viewModel;
+    private final String[] nombres = {"Salud", "Hogar", "Alimentos", "Mascotas", "Transporte", "Refaccion Casa"};
+    private List<PieEntry> values = new ArrayList<>();
 
     public InformeFragment() {
         super();
@@ -44,6 +49,8 @@ public class InformeFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_informe, container, false);
 
+        viewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+
         Button trailingButton = view.findViewById(R.id.trailingButton);
         Button mainButton = view.findViewById(R.id.mainButton);
         trailingButton.setOnClickListener(v -> showMenu(view, v, R.menu.menu_boton_informe));
@@ -51,9 +58,19 @@ public class InformeFragment extends Fragment {
 
         loadFiltroGenFragment();
 
-        loadChart(view.findViewById(R.id.graficoInforme));
+        loadChart(view.findViewById(R.id.graficoInforme), viewModel.getAllTransaciones());
 
         return view;
+    }
+
+    private void loadChart(PieChart chart, List<Transaccion> values) {
+        Map<Integer, List<Transaccion>> map = values.stream().collect(Collectors.groupingBy(t -> t.id_categoria));
+        List<Entry> entries = map.entrySet().stream().map(e -> new Entry(e.getValue().stream().mapToDouble(t -> t.monto).sum(), e.getKey())).toList();
+        this.values = entries.stream().map(e -> new PieEntry((float) e.monto, nombres[e.idCat])).toList();
+        loadChart(chart);
+    }
+
+    public record Entry(double monto, int idCat) {
     }
 
     private void loadChart(PieChart chart) {
@@ -72,19 +89,12 @@ public class InformeFragment extends Fragment {
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         legend.setVerticalAlignment(Legend.LegendVerticalAlignment.CENTER);
 
-        ArrayList<PieEntry> values = new ArrayList<>();
-        values.add(new PieEntry(30f, "Salud"));
-        values.add(new PieEntry(40f, "Mascotas"));
-        values.add(new PieEntry(10f, "Alimentos"));
-        values.add(new PieEntry(50f, "Casa"));
-
         PieDataSet dataSet = new PieDataSet(values, "Categorias");
         dataSet.setDrawValues(false);
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
         PieData data = new PieData(dataSet);
         chart.setData(data);
-
     }
 
     private void showMenu(View v, View button, int menuRes) {

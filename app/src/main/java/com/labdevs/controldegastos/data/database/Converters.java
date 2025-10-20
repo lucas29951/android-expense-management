@@ -10,7 +10,7 @@ import java.util.TimeZone;
 public class Converters {
 
     private static final ThreadLocal<SimpleDateFormat> ISO = ThreadLocal.withInitial(() -> {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf;
     });

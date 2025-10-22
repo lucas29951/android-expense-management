@@ -43,6 +43,15 @@ public class MainActivity extends AppCompatActivity {
     private void beginFragmentTransaction() {
         loadFragments();
         binding.bottomNav.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.item_1) {
+                // setCurrentFragment(fragments.get(0));
+            }
+            if (item.getItemId() == R.id.item_2) {
+                // setCurrentFragment(fragments.get(1));
+            }
+            if (item.getItemId() == R.id.item_3) {
+                setCurrentFragment(fragments.get(2));
+            }
             if (item.getItemId() == R.id.item_4) {
                 setCurrentFragment(fragments.get(3));
             }
@@ -50,14 +59,14 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void setCurrentFragment(Fragment fragment) {
+    public void setCurrentFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout,fragment).commit();
     }
 
     private void loadFragments() {
         fragments.add(new BlankFragment());
         fragments.add(new BlankFragment());
-        fragments.add(new BlankFragment());
+        fragments.add(new CategoriasFragment());
         fragments.add(new InformeFragment());
     }
 }

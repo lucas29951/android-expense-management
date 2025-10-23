@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ public class FiltroGeneralFragment extends Fragment {
 
     private LocalDate fecha;
     private TipoFiltroGen tipoFiltro;
+    private AppViewModel viewModel;
 
     public FiltroGeneralFragment(LocalDate fecha, TipoFiltroGen tipoFiltro) {
         this.fecha = fecha;
@@ -36,6 +38,7 @@ public class FiltroGeneralFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_filtro_general, container, false);
+        viewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
         setButtonsListener(view);
         changeDateFormat(view);
         return view;
@@ -70,7 +73,12 @@ public class FiltroGeneralFragment extends Fragment {
 
     private void changeDateFormat(View view, LocalDate fecha) {
         this.fecha = fecha;
+        cambiarFiltroFecha();
         changeDateFormat(view);
+    }
+
+    private void cambiarFiltroFecha() {
+        viewModel.setFiltroFecha(fecha);
     }
 
     private void changeDateFormat(View view) {

@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadFragments() {
-        fragments.add(new BlankFragment());
+        fragments.add(new ResumeFragment());
         fragments.add(new BlankFragment());
         fragments.add(new BlankFragment());
         fragments.add(new InformeFragment());

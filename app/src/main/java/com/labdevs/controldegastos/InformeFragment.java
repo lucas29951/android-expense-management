@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.button.MaterialButton;
 import com.labdevs.controldegastos.data.model.ItemInforme;
 import com.labdevs.controldegastos.data.repositories.TransaccionRepository;
 
@@ -69,10 +70,8 @@ public class InformeFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
 
-        Button trailingButton = view.findViewById(R.id.trailingButton);
-        Button mainButton = view.findViewById(R.id.mainButton);
-        trailingButton.setOnClickListener(v -> showMenu(view, v, R.menu.menu_boton_informe));
-        mainButton.setOnClickListener(v -> showMenu(view, v, R.menu.menu_boton_informe));
+        view.findViewById(R.id.tipoFiltroButton).setOnClickListener(v->showMenu(view, v, R.menu.menu_boton_informe));
+//        mainButton.setOnClickListener(v -> showMenu(view, v, R.menu.menu_boton_informe));
 
         total = view.findViewById(R.id.total);
 
@@ -194,7 +193,7 @@ public class InformeFragment extends Fragment {
     }
 
     private void changeMainButtonText(View v, String str) {
-        Button button = v.findViewById(R.id.mainButton);
+        Button button = v.findViewById(R.id.tipoFiltroButton);
         button.setText(str);
     }
 

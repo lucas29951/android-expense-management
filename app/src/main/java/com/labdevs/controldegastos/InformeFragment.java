@@ -12,14 +12,14 @@ import androidx.fragment.app.Fragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
-import com.google.android.material.button.MaterialButton;
 import com.labdevs.controldegastos.data.model.ItemInforme;
 import com.labdevs.controldegastos.data.repositories.TransaccionRepository;
 
@@ -41,12 +41,14 @@ public class InformeFragment extends Fragment {
     private List<PieEntry> values = new ArrayList<>();
     private PieChart grafico;
     private TextView total;
-    private final String totalValueFormat = "%1$,.2f";
+    private final String totalValueFormat = "%1$,.0f";
+    private CustomLegendAdapter legendAdapter;
+    private RecyclerView customLegendView;
 
     public InformeFragment() {
         super();
         // TODO: fecha para testing, cambiar a now()
-        fecha = LocalDate.of(2025,8,1);
+        fecha = LocalDate.of(2025, 8, 1);
 
         // TODO: asociar a la cuenta del usuario
         cuentaUsuario = 1;
@@ -70,8 +72,10 @@ public class InformeFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
 
-        view.findViewById(R.id.tipoFiltroButton).setOnClickListener(v->showMenu(view, v, R.menu.menu_boton_informe));
-//        mainButton.setOnClickListener(v -> showMenu(view, v, R.menu.menu_boton_informe));
+        view.findViewById(R.id.tipoFiltroButton).setOnClickListener(v -> showMenu(view, v, R.menu.menu_boton_informe));
+
+        // recyclerView para las legends
+        customLegendView = view.findViewById(R.id.customLegends);
 
         total = view.findViewById(R.id.total);
 
@@ -85,7 +89,7 @@ public class InformeFragment extends Fragment {
         return view;
     }
 
-    private void cambiarFiltroFecha(LocalDate fecha){
+    private void cambiarFiltroFecha(LocalDate fecha) {
         filtrosTransaccion.setFecha(fecha);
         loadChart();
     }
@@ -95,10 +99,10 @@ public class InformeFragment extends Fragment {
         Float totalValue = getFloatTotalValue(values);
         String totalValueStr = String.format(totalValueFormat, totalValue);
         setTotalText(totalValueStr);
-        initializeChart(grafico,totalValueStr);
+        initializeChart(grafico, totalValueStr);
     }
 
-    private void loadChart(){
+    private void loadChart() {
         values = getPieEntries(viewModel.listarTransacciones(filtrosTransaccion));
         Float totalValue = getFloatTotalValue(values);
         String totalValueStr = String.format(totalValueFormat, totalValue);
@@ -108,23 +112,23 @@ public class InformeFragment extends Fragment {
     }
 
     private void changeChartCenterText(String total) {
-        grafico.setCenterText("Total\n$ "+total);
+        grafico.setCenterText("Total\n$ " + total);
         grafico.invalidate();
     }
 
     private void setTotalText(String total) {
-        this.total.setText("$"+total);
+        this.total.setText("$" + total);
     }
 
-    private Float getFloatTotalValue(List<PieEntry> entries){
+    private Float getFloatTotalValue(List<PieEntry> entries) {
         return entries.stream().map(PieEntry::getValue).reduce(0f, Float::sum);
     }
 
-    private List<PieEntry> getPieEntries(List<ItemInforme> items){
-        return items.stream().map(item -> new PieEntry((float) item.monto,item.nombreCat)).toList();
+    private List<PieEntry> getPieEntries(List<ItemInforme> items) {
+        return items.stream().map(item -> new PieEntry((float) item.monto, item.nombreCat)).toList();
     }
 
-    private void initializeChart(PieChart chart,String total) {
+    private void initializeChart(PieChart chart, String total) {
         chart.getDescription().setEnabled(false);
         chart.setUsePercentValues(true);
         chart.setDrawHoleEnabled(true);
@@ -132,18 +136,39 @@ public class InformeFragment extends Fragment {
         chart.setNoDataText("Aun no hay datos cargados");
         chart.setExtraOffsets(10f, 10f, 10f, 10f);
         chart.setDrawEntryLabels(false);
-        chart.setCenterText("Total\n"+total);
+        chart.setCenterText("Total\n" + total);
         chart.setCenterTextSize(20f);
-        Legend legend = chart.getLegend();
-        legend.setEnabled(true);
-        legend.setOrientation(Legend.LegendOrientation.VERTICAL);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.CENTER);
+        chart.getLegend().setEnabled(false);
 
         setPieDataSet(chart);
     }
 
-    private void setPieDataSet(PieChart chart){
+    private void showLegends(PieDataSet dataSet) {
+        List<CustomLegendAdapter.ItemLegend> legends = new ArrayList<>();
+        float totalValues = values.stream().map(PieEntry::getValue).reduce(0f, Float::sum);
+        for (int i = 0; i < values.size(); i++) {
+            PieEntry pieEntry = values.get(i);
+            float percentage = (pieEntry.getValue()*100f) / totalValues;
+            legends.add(new CustomLegendAdapter.ItemLegend(dataSet.getColor(i),
+                    pieEntry.getLabel(),
+                    String.format(totalValueFormat, pieEntry.getValue()),
+                    String.format("%.0f %%", percentage)));
+        }
+        loadCustomLegend(legends);
+    }
+
+    private void loadCustomLegend(List<CustomLegendAdapter.ItemLegend> legends) {
+        if (legendAdapter == null) {
+            legendAdapter = new CustomLegendAdapter((MainActivity) getActivity(), legends);
+            customLegendView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            customLegendView.setAdapter(legendAdapter);
+        } else {
+            legendAdapter.setLegends(legends);
+            legendAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void setPieDataSet(PieChart chart) {
         PieDataSet dataSet = new PieDataSet(values, "Categorias");
         dataSet.setDrawValues(false);
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
@@ -151,6 +176,8 @@ public class InformeFragment extends Fragment {
         PieData data = new PieData(dataSet);
         chart.setData(data);
         chart.invalidate();
+
+        showLegends(dataSet);
     }
 
     private void showMenu(View v, View button, int menuRes) {

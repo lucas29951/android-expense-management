@@ -47,21 +47,21 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/tipoFiltroButton"
             style="?attr/borderlessButtonStyle"
-            android:text="@string/default_label_periodo"
-            app:icon="@drawable/today_24px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin"
+            android:text="@string/default_label_periodo"
+            app:icon="@drawable/today_24px"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/segmentedButtonsInforme"
-            android:layout_marginEnd="@dimen/margin"/>
+            app:layout_constraintTop_toBottomOf="@+id/segmentedButtonsInforme" />
 
         <TextView
             android:id="@+id/tituloPrincipal"
             style="@style/TextAppearance.Material3.HeadlineSmall.Emphasized"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_titulo_principal"
             android:layout_marginStart="@dimen/margin"
+            android:layout_marginTop="@dimen/margin_titulo_principal"
             android:text="@string/titulo_informe_principal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tipoFiltroButton" />
@@ -76,7 +76,7 @@
             android:layout_marginBottom="@dimen/margin"
             android:text="@string/titulo_informe_secundario"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tituloPrincipal"/>
+            app:layout_constraintTop_toBottomOf="@+id/tituloPrincipal" />
 
         <TextView
             android:id="@+id/total"
@@ -93,13 +93,21 @@
             android:id="@+id/graficoInforme"
             android:layout_width="400sp"
             android:layout_height="400sp"
-            android:layout_marginTop="@dimen/margin"
             android:layout_marginStart="@dimen/margin"
             android:layout_marginEnd="@dimen/margin"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/customLegends"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/total" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/customLegends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/graficoInforme" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

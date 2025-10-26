@@ -5,6 +5,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import android.content.Context;
+import android.content.res.AssetManager;
 
 import com.labdevs.controldegastos.data.entity.Categoria;
 import com.labdevs.controldegastos.data.entity.Cuenta;
@@ -44,11 +45,13 @@ public abstract class AppDatabase extends RoomDatabase {
                                     context.getApplicationContext(),
                                     AppDatabase.class,
                                     "control_gastos.db"
-                            ).allowMainThreadQueries()
+                            ).allowMainThreadQueries().createFromAsset("app.db")
                             .build();
                 }
             }
         }
+        //dummy select required for pre-populate the db
+        INSTANCIA.query("select 1", null);
         return INSTANCIA;
     }
 }

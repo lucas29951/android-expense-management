@@ -9,7 +9,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.labdevs.controldegastos.data.database.Converters;
+import com.labdevs.controldegastos.data.entity.Transaccion;
 import com.labdevs.controldegastos.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
@@ -21,13 +24,13 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private List<Fragment> fragments = new ArrayList<>();
-
-
+    private AppViewModel viewModel;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(this).get(AppViewModel.class);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         EdgeToEdge.enable(this);
         setContentView(binding.getRoot());
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCurrentFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout,fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, fragment).commit();
     }
 
     private void loadFragments() {

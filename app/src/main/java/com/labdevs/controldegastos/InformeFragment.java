@@ -148,13 +148,23 @@ public class InformeFragment extends Fragment {
         float totalValues = values.stream().map(PieEntry::getValue).reduce(0f, Float::sum);
         for (int i = 0; i < values.size(); i++) {
             PieEntry pieEntry = values.get(i);
-            float percentage = (pieEntry.getValue()*100f) / totalValues;
+            float percentage = (pieEntry.getValue() * 100f) / totalValues;
             legends.add(new CustomLegendAdapter.ItemLegend(dataSet.getColor(i),
                     pieEntry.getLabel(),
-                    String.format(totalValueFormat, pieEntry.getValue()),
-                    String.format("%.0f %%", percentage)));
+                    getValueStrPadded(pieEntry.getValue()),
+                    getPercentStrPadded(percentage)));
         }
         loadCustomLegend(legends);
+    }
+
+    private String getPercentStrPadded(float percentage) {
+        String percentStr = String.format("%.0f", percentage);
+        return percentStr.length() == 3 ? percentStr + " %" : ("\t".repeat(2) + percentStr).substring(percentStr.length()) + " %";
+    }
+
+    private String getValueStrPadded(float value){
+        String valueStr = String.format(totalValueFormat, value);
+        return valueStr.length() == 16 ? valueStr : ("\t".repeat(15) + valueStr).substring(valueStr.length());
     }
 
     private void loadCustomLegend(List<CustomLegendAdapter.ItemLegend> legends) {

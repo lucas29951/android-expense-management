@@ -114,4 +114,6 @@
     <string name="resume_title">Resumen</string>
     <string name="total_subtitle">Saldo total</string>
     <string name="total_amount">$1,234.56</string>
+    <string name="expenses_section_title">Gastos Recientes</string>
+    <string name="income_section_title">Ingresos Recientes</string>
 </resources>

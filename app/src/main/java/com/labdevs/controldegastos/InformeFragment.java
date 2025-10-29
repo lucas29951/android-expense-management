@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alanvan.segmented_control.SegmentedControlGroup;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.labdevs.controldegastos.data.repositories.TransaccionRepository.FiltrosTransacciones.*;
+
+import kotlin.Unit;
 
 public class InformeFragment extends Fragment {
 
@@ -44,6 +47,7 @@ public class InformeFragment extends Fragment {
     private final String totalValueFormat = "%1$,.0f";
     private CustomLegendAdapter legendAdapter;
     private RecyclerView customLegendView;
+    private final String[] tiposTransaccion = {"ingreso","gasto"};
 
     public InformeFragment() {
         super();
@@ -72,6 +76,13 @@ public class InformeFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
 
+        SegmentedControlGroup segmentedControl = view.findViewById(R.id.segmentedButtonsInforme);
+        segmentedControl.setOnSelectedOptionChangeCallback(index -> {
+            filtrosTransaccion.setFiltroTipoTrans(getIndex(index));
+            loadChart();
+            return null;
+        });
+
         view.findViewById(R.id.tipoFiltroButton).setOnClickListener(v -> showMenu(view, v, R.menu.menu_boton_informe));
 
         // recyclerView para las legends
@@ -87,6 +98,13 @@ public class InformeFragment extends Fragment {
         viewModel.getFiltroFecha().observe(getViewLifecycleOwner(), this::cambiarFiltroFecha);
 
         return view;
+    }
+
+    private String getIndex(Integer index) {
+        if(index==0)
+            return tiposTransaccion[index++];
+        else
+            return tiposTransaccion[index--];
     }
 
     private void cambiarFiltroFecha(LocalDate fecha) {

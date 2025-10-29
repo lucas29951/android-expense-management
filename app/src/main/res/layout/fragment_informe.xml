@@ -10,30 +10,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
+        <com.alanvan.segmented_control.SegmentedControlGroup
             android:id="@+id/segmentedButtonsInforme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:singleSelection="true">
+            android:layout_margin="@dimen/margin"
+            app:layout_constraintTop_toTopOf="parent"
+            app:singleSelection="true"
+            tools:layout_editor_absoluteX="16dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/toggleButton1"
-                style="?attr/materialButtonOutlinedStyle"
+            <com.alanvan.segmented_control.SegmentedControlButton
+                android:id="@+id/button1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:insetLeft="@dimen/margin"
                 android:text="@string/toggle_button_label1" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/toggleButton2"
-                style="?attr/materialButtonOutlinedStyle"
+            <com.alanvan.segmented_control.SegmentedControlButton
+                android:id="@+id/button2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:insetRight="@dimen/margin"
                 android:text="@string/toggle_button_label2" />
-        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <!--            <com.google.android.material.button.MaterialButton-->
+            <!--                android:id="@+id/toggleButton1"-->
+            <!--                style="?attr/materialButtonOutlinedStyle"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:insetLeft="@dimen/margin"-->
+            <!--                android:text="@string/toggle_button_label1" />-->
+
+            <!--            <com.google.android.material.button.MaterialButton-->
+            <!--                android:id="@+id/toggleButton2"-->
+            <!--                style="?attr/materialButtonOutlinedStyle"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:insetRight="@dimen/margin"-->
+            <!--                android:text="@string/toggle_button_label2" />-->
+        </com.alanvan.segmented_control.SegmentedControlGroup>
 
         <FrameLayout
             android:id="@+id/filtrosFragment"

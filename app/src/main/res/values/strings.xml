@@ -108,4 +108,15 @@
     <!-- STRINGS ACCOUNT VIEW -->
     <string name="account_title">Cuentas</string>
     <string name="add_button">Añadir cuenta</string>
+
+    <!-- STRING MANAGE ACCOUNT VIEW -->
+    <string name="manege_title_1">Agregar cuenta</string>
+    <string name="manage_title_2">Editar cuenta</string>
+    <string name="account_name_label">Nombre de la cuenta</string>
+    <string name="example_content_name">ej. Efectivo</string>
+    <string name="account_balance_label">Balance Inicial</string>
+    <string name="example_content_balance">$0.00</string>
+    <string name="account_icon_label">Icono de la cuenta</string>
+    <string name="icon_label_subtitle">Seleccione un icono</string>
+    <string name="save_button">Guardar cuenta</string>
 </resources>

@@ -1,14 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".InformeFragment">
 
-        <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.alanvan.segmented_control.SegmentedControlGroup
+            android:id="@+id/segmentedButtonsInforme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin"
+            app:layout_constraintTop_toTopOf="parent"
+            app:singleSelection="true"
+            tools:layout_editor_absoluteX="16dp">
+
+            <com.alanvan.segmented_control.SegmentedControlButton
+                android:id="@+id/button1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/toggle_button_label1" />
+
+            <com.alanvan.segmented_control.SegmentedControlButton
+                android:id="@+id/button2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/toggle_button_label2" />
+
+            <!--            <com.google.android.material.button.MaterialButton-->
+            <!--                android:id="@+id/toggleButton1"-->
+            <!--                style="?attr/materialButtonOutlinedStyle"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:insetLeft="@dimen/margin"-->
+            <!--                android:text="@string/toggle_button_label1" />-->
+
+            <!--            <com.google.android.material.button.MaterialButton-->
+            <!--                android:id="@+id/toggleButton2"-->
+            <!--                style="?attr/materialButtonOutlinedStyle"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:insetRight="@dimen/margin"-->
+            <!--                android:text="@string/toggle_button_label2" />-->
+        </com.alanvan.segmented_control.SegmentedControlGroup>
+
+        <FrameLayout
+            android:id="@+id/filtrosFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:text="@string/large_text"/>
+            android:layout_marginStart="@dimen/margin"
+            app:layout_constraintBottom_toBottomOf="@+id/tipoFiltroButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/segmentedButtonsInforme" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tipoFiltroButton"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin"
+            android:text="@string/default_label_periodo"
+            app:icon="@drawable/today_24px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/segmentedButtonsInforme" />
+
+        <TextView
+            android:id="@+id/tituloPrincipal"
+            style="@style/TextAppearance.Material3.HeadlineSmall.Emphasized"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginTop="@dimen/margin_titulo_principal"
+            android:text="@string/titulo_informe_principal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tipoFiltroButton" />
+
+        <TextView
+            android:id="@+id/tituloSecundario"
+            style="@style/TextAppearance.Material3.TitleMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginTop="@dimen/margin_titulo_principal"
+            android:layout_marginBottom="@dimen/margin"
+            android:text="@string/titulo_informe_secundario"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tituloPrincipal" />
+
+        <TextView
+            android:id="@+id/total"
+            style="@style/TextAppearance.Material3.DisplaySmall.Emphasized"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginTop="@dimen/margin_componentes_grafico"
+            android:text="@string/total_informe"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tituloSecundario" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/graficoInforme"
+            android:layout_width="400sp"
+            android:layout_height="400sp"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
+            app:layout_constraintBottom_toTopOf="@+id/customLegends"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/total" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/customLegends"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/graficoInforme" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

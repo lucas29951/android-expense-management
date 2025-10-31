@@ -95,8 +95,20 @@
     <string name="label_menu_item3">Categorias</string>
     <string name="label_menu_item4">Informe</string>
     <string name="label_menu_item5">Configuracion</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- STRINGS INFORME VIEW -->
+    <string name="toggle_button_label1">Ingresos</string>
+    <string name="toggle_button_label2">Gastos</string>
+    <string name="default_label_periodo">Mensual</string>
+    <string name="menu_informe_opcion_texto_1">Semanal</string>
+    <string name="menu_informe_opcion_texto_2">Mensual</string>
+    <string name="menu_informe_opcion_texto_3">Anual</string>
+    <string name="menu_informe_opcion_texto_4">Periodo</string>
+    <string name="titulo_informe_principal">Gastos Por Categorias
+    </string>
+    <string name="titulo_informe_secundario">Gastos</string>
+    <string name="total_informe">$1,234</string>
 
     <!-- STRINGS RESUME VIEW -->
     <string name="resume_title">Resumen</string>

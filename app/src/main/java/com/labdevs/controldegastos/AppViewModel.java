@@ -7,8 +7,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.labdevs.controldegastos.data.entity.Cuenta;
 import com.labdevs.controldegastos.data.entity.Transaccion;
 import com.labdevs.controldegastos.data.model.ItemInforme;
+import com.labdevs.controldegastos.data.repositories.CuentaRepository;
 import com.labdevs.controldegastos.data.repositories.TransaccionRepository;
 
 import java.time.LocalDate;
@@ -18,18 +20,21 @@ public class AppViewModel extends AndroidViewModel {
 
     private final MutableLiveData<LocalDate> filtroFecha = new MutableLiveData<>();
     private final TransaccionRepository transaccionRepo;
-    private final List<Transaccion> transaciones;
+    private CuentaRepository cuentaRepo;
 
     public AppViewModel(@NonNull Application application) {
         super(application);
         transaccionRepo = new TransaccionRepository(application);
-        transaciones = transaccionRepo.getAllTransacciones();
+        cuentaRepo = new CuentaRepository(application);
+    }
+    // --- Vista Cuentas ---
+
+    public List<Cuenta> listarCuentas(){
+        return cuentaRepo.listarCuentas();
     }
 
-    public List<Transaccion> getAllTransaciones() {
-        return transaciones;
-    }
 
+    // --- Vista Informe ---
     public void insertar(Transaccion transaccion){
         transaccionRepo.insertar(transaccion);
     }

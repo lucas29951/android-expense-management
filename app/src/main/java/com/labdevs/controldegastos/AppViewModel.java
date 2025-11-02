@@ -21,29 +21,38 @@ public class AppViewModel extends AndroidViewModel {
     private final MutableLiveData<LocalDate> filtroFecha = new MutableLiveData<>();
     private final TransaccionRepository transaccionRepo;
     private CuentaRepository cuentaRepo;
+    private MutableLiveData<String> appBarTitle = new MutableLiveData<>();
 
     public AppViewModel(@NonNull Application application) {
         super(application);
         transaccionRepo = new TransaccionRepository(application);
         cuentaRepo = new CuentaRepository(application);
     }
-    // --- Vista Cuentas ---
+    // --- Appbar ---
+    public LiveData<String> getAppBarTitle(){
+        return appBarTitle;
+    }
 
-    public List<Cuenta> listarCuentas(){
+    public void setAppBarTitle(String title){
+        appBarTitle.setValue(title);
+    }
+
+    // --- Vista Cuentas ---
+    public List<Cuenta> listarCuentas() {
         return cuentaRepo.listarCuentas();
     }
 
 
     // --- Vista Informe ---
-    public void insertar(Transaccion transaccion){
+    public void insertar(Transaccion transaccion) {
         transaccionRepo.insertar(transaccion);
     }
 
-    public void eliminar(Transaccion t){
+    public void eliminar(Transaccion t) {
         transaccionRepo.eliminar(t);
     }
 
-    public List<ItemInforme> listarTransacciones(TransaccionRepository.FiltrosTransacciones filtros){
+    public List<ItemInforme> listarTransacciones(TransaccionRepository.FiltrosTransacciones filtros) {
         return transaccionRepo.listarTransacFiltradasPorFecha(filtros);
     }
 

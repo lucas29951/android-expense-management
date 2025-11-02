@@ -32,14 +32,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(AppViewModel.class);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        //TODO: borrar estas lineas
-//        EdgeToEdge.enable(this);
+
+        viewModel.getAppBarTitle().observe(this,title -> binding.topAppBar.setTitle(title));
+
         setContentView(binding.getRoot());
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
 
         beginFragmentTransaction();
     }

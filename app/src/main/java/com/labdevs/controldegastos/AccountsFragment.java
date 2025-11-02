@@ -2,6 +2,7 @@ package com.labdevs.controldegastos;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +25,8 @@ public class AccountsFragment extends Fragment {
 
         binding = FragmentAccountsBinding.inflate(inflater,container,false);
         viewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+
+        viewModel.setAppBarTitle(getString(R.string.title_cuentas));
 
         loadAdapter();
 

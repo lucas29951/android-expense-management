@@ -131,4 +131,5 @@
     <string name="account_icon_label">Icono de la cuenta</string>
     <string name="icon_label_subtitle">Seleccione un icono</string>
     <string name="save_button">Guardar cuenta</string>
+    <string name="title_cuentas">Cuentas</string>
 </resources>

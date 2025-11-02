@@ -76,6 +76,8 @@ public class InformeFragment extends Fragment {
 
         viewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
 
+        viewModel.setAppBarTitle(getString(R.string.title_informe));
+
         SegmentedControlGroup segmentedControl = view.findViewById(R.id.segmentedButtonsInforme);
         segmentedControl.setOnSelectedOptionChangeCallback(index -> {
             filtrosTransaccion.setFiltroTipoTrans(getIndex(index));

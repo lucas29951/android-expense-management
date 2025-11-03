@@ -51,9 +51,9 @@
                 android:layout_marginTop="24dp"
                 android:textColor="@color/black"/>
 
-            <include layout="@layout/item_setting"/>
-            <include layout="@layout/item_setting"/>
-            <include layout="@layout/item_setting"/>
+            <include layout="@layout/item_settings_details_account"/>
+            <include layout="@layout/item_settings_suscription"/>
+            <include layout="@layout/item_settings_invite_friends"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -64,9 +64,9 @@
                 android:layout_marginTop="24dp"
                 android:textColor="@color/black"/>
 
-            <include layout="@layout/item_setting"/>
-            <include layout="@layout/item_setting"/>
-            <include layout="@layout/item_setting"/>
+            <include layout="@layout/item_settings_app_preferences"/>
+            <include layout="@layout/item_settings_notifications"/>
+            <include layout="@layout/item_settings_data_management"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -77,8 +77,8 @@
                 android:layout_marginTop="24dp"
                 android:textColor="@color/black"/>
 
-            <include layout="@layout/item_setting"/>
-            <include layout="@layout/item_setting"/>
+            <include layout="@layout/item_settings_themes"/>
+            <include layout="@layout/item_settings_icon_app"/>
 
         </LinearLayout>
     </ScrollView>

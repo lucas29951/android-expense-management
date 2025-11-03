@@ -127,4 +127,18 @@
     <string name="custom_subtitle">Personalizacion</string>
     <string name="op_account_details">Detalles de la cuenta</string>
     <string name="op_account_details_desc">Administra tus detalles de cuenta</string>
+    <string name="op_account_susc">Suscripcion</string>
+    <string name="op_account_susc_desc">Administra tus suscripciones</string>
+    <string name="op_account_friends">Invitar amigos</string>
+    <string name="op_account_friends_desc">Invita a amigos a unirse</string>
+    <string name="op_prefs_app">Preferencias de la app</string>
+    <string name="op_prefs_app_desc">Personaliza tu experiencia en la app</string>
+    <string name="op_prefs_notif">Notificaciones</string>
+    <string name="op_prefs_notif_desc">Administra las notificaciones</string>
+    <string name="op_prefs_db">Gestion de datos</string>
+    <string name="op_prefs_db_desc">Administra tus datos</string>
+    <string name="op_custom_themes">Temas</string>
+    <string name="op_custom_themes_desc">Personaliza tus temas en la app</string>
+    <string name="op_custom_icons">Icono de la app</string>
+    <string name="op_custom_icons_desc">Cambia tu icono de la app</string>
 </resources>

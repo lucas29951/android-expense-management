@@ -95,7 +95,8 @@
     <string name="label_menu_item3">Categorias</string>
     <string name="label_menu_item4">Informe</string>
     <string name="label_menu_item5">Ajustes</string>
-
+    <string name="title_informe">Informe</string>
+    <string name="title_cuentas">Cuentas</string>
 
     <!-- STRINGS INFORME VIEW -->
     <string name="toggle_button_label1">Ingresos</string>
@@ -121,7 +122,7 @@
     <string name="account_title">Cuentas</string>
     <string name="add_button">Añadir cuenta</string>
 
-    <!-- STRING MANAGE ACCOUNT VIEW -->
+    <!-- STRINGS MANAGE ACCOUNT VIEW -->
     <string name="manege_title_1">Agregar cuenta</string>
     <string name="manage_title_2">Editar cuenta</string>
     <string name="account_name_label">Nombre de la cuenta</string>
@@ -131,6 +132,12 @@
     <string name="account_icon_label">Icono de la cuenta</string>
     <string name="icon_label_subtitle">Seleccione un icono</string>
     <string name="save_button">Guardar cuenta</string>
-    <string name="title_informe">Informe</string>
-    <string name="title_cuentas">Cuentas</string>
+
+    <!-- STRINGS SETTINGS VIEW -->
+    <string name="settings_title">Ajustes</string>
+    <string name="account_subtitle">Cuenta</string>
+    <string name="preferences_subtitle">Preferencias</string>
+    <string name="custom_subtitle">Personalizacion</string>
+    <string name="op_account_details">Detalles de la cuenta</string>
+    <string name="op_account_details_desc">Administra tus detalles de cuenta</string>
 </resources>

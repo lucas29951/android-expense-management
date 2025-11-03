@@ -2,6 +2,8 @@ package com.labdevs.controldegastos.data.repositories;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import com.labdevs.controldegastos.data.dao.CuentaDAO;
 import com.labdevs.controldegastos.data.database.AppDatabase;
 import com.labdevs.controldegastos.data.entity.Cuenta;
@@ -25,7 +27,11 @@ public class CuentaRepository {
         cuentaDAO.delete(cuenta);
     }
 
-    public List<Cuenta> listarCuentas(){
+    public LiveData<List<Cuenta>> listarCuentas(){
         return cuentaDAO.listAll();
+    }
+
+    public List<Cuenta> allCuentas(){
+        return cuentaDAO.listarTodas();
     }
 }

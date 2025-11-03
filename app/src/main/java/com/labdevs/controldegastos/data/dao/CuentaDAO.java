@@ -27,7 +27,7 @@ public interface CuentaDAO {
     Cuenta buscarPorId(int id);
 
     @Query("SELECT * FROM cuentas")
-    List<Cuenta> listAll();
+    LiveData<List<Cuenta>> listAll();
 
 
 }

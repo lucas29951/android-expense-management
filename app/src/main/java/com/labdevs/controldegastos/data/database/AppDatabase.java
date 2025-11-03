@@ -17,6 +17,9 @@ import com.labdevs.controldegastos.data.dao.CuentaDAO;
 import com.labdevs.controldegastos.data.dao.GastoRecurrenteDAO;
 import com.labdevs.controldegastos.data.dao.TransaccionDAO;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Database(
         entities = {
                 Categoria.class,
@@ -33,6 +36,10 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CuentaDAO CuentaDAO();
     public abstract GastoRecurrenteDAO GastoRecurrenteDAO();
     public abstract TransaccionDAO TransaccionDAO();
+
+    private static final int NUMBER_OF_THREADS = 4;
+    public static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     // --- Singleton ---
     private static volatile AppDatabase INSTANCIA;

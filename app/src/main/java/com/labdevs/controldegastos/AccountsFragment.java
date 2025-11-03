@@ -28,13 +28,14 @@ public class AccountsFragment extends Fragment {
 
         viewModel.setAppBarTitle(getString(R.string.title_cuentas));
 
-        loadAdapter();
+        setupRecyclerView();
+        viewModel.listarCuentas().observe(getViewLifecycleOwner(),cuentas->cuentaAdapter.setCuentas(cuentas));
 
         return binding.getRoot();
     }
 
-    private void loadAdapter() {
-        cuentaAdapter = new CuentaAdapter((MainActivity) getActivity(), viewModel.listarCuentas());
+    private void setupRecyclerView() {
+        cuentaAdapter = new CuentaAdapter((MainActivity) getActivity(),viewModel.getListaCuentas());
         binding.rvAccountsList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvAccountsList.setAdapter(cuentaAdapter);
     }

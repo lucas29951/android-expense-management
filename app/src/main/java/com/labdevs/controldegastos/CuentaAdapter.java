@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.labdevs.controldegastos.data.entity.Cuenta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccountaHolder> {
@@ -49,7 +50,12 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
 
     @Override
     public int getItemCount() {
-        return cuentas.size();
+        return cuentas != null ? cuentas.size() : 0;
+    }
+
+    public void setCuentas(List<Cuenta> cuentas) {
+        this.cuentas = cuentas;
+        notifyDataSetChanged();
     }
 
     public class ListAccountaHolder extends RecyclerView.ViewHolder{

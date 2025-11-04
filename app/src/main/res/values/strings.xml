@@ -133,6 +133,12 @@
     <string name="type_label_subtitle">Seleccione un tipo</string>
     <string name="save_button">Guardar cuenta</string>
 
+    <!-- STRINGS SELECT TYPE MENU VIEW -->
+    <string name="menu_tipo_cuenta_op_texto_1">Efectivo</string>
+    <string name="menu_tipo_cuenta_op_texto_2">Tarjeta de Credito</string>
+    <string name="menu_tipo_cuenta_op_texto_3">Tarjeta de Debito</string>
+    <string name="menu_tipo_cuenta_op_texto_4">Caja de Ahorro</string>
+
     <!-- STRINGS SETTINGS VIEW -->
     <string name="settings_title">Ajustes</string>
     <string name="account_subtitle">Cuenta</string>

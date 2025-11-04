@@ -13,12 +13,23 @@ import com.labdevs.controldegastos.data.entity.Categoria;
 
 import java.util.List;
 
-public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.CategoriaViewHolder> {
+public class CategoriasAdaptador extends RecyclerView.Adapter<CategoriasAdaptador.CategoriaViewHolder> {
 
+    private CategoriasFragment fragmento;
     private List<Categoria> listaCategorias;
 
-    public CategoriaAdaptador(List<Categoria> listaCategorias) {
+    public CategoriasAdaptador(List<Categoria> listaCategorias, CategoriasFragment fragmento) {
         this.listaCategorias = listaCategorias;
+        this.fragmento = fragmento;
+    }
+
+    public List<Categoria> getListaCategorias() {
+        return listaCategorias;
+    }
+
+    public void setListaCategorias(List<Categoria> listaCategorias) {
+        this.listaCategorias = listaCategorias;
+        notifyDataSetChanged();
     }
 
     // ViewHolder - almacena las vistas
@@ -30,7 +41,6 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
             super(v);
             nombreCat = v.findViewById(R.id.tvNombre);
             iconoCat = v.findViewById(R.id.ivIcono);
-
         }
     }
 
@@ -54,6 +64,10 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
         Context contexto = viewHolder.itemView.getContext();
         int idIcono = contexto.getResources().getIdentifier(categoria.icono, "drawable", contexto.getPackageName());
         viewHolder.iconoCat.setImageResource(idIcono);
+
+        viewHolder.itemView.setOnClickListener(v -> {
+            fragmento.categoriaClickListener(categoria);
+        });
     }
 
     // Adapter - getItemCount devuelve el tamaño de la lista de elementos

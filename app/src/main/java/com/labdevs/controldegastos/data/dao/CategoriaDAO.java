@@ -1,5 +1,6 @@
 package com.labdevs.controldegastos.data.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -22,8 +23,11 @@ public interface CategoriaDAO {
     void eliminar(Categoria c);
 
     @Query("SELECT * FROM categorias")
-    List<Categoria> listarTodas();
+    LiveData<List<Categoria>> listarTodas();
 
     @Query("SELECT * FROM categorias WHERE id = :id")
     Categoria buscarPorId(int id);
+
+    @Query("SELECT * FROM categorias WHERE nombre = :nombre")
+    Categoria buscarPorNombre(String nombre);
 }

@@ -1,10 +1,16 @@
 package com.labdevs.controldegastos.data.entity;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 import java.util.Date;
 
-@Entity(tableName = "transacciones")
+@Entity(tableName = "transacciones",
+        foreignKeys = {
+                @ForeignKey(entity = Categoria.class, parentColumns = "id", childColumns = "id_categoria", onDelete = ForeignKey.CASCADE),
+                @ForeignKey(entity = Cuenta.class, parentColumns = "id", childColumns = "id_cuenta_origen", onDelete = ForeignKey.CASCADE),
+                @ForeignKey(entity = Cuenta.class, parentColumns = "id", childColumns = "id_cuenta_destino", onDelete = ForeignKey.CASCADE)
+        })
 public class Transaccion {
     @PrimaryKey(autoGenerate = true)
     public int id;

@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"
+    android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +24,8 @@
             android:layout_height="40dp"
             android:padding="8dp"
             android:layout_marginHorizontal="8dp"
-            android:background="@drawable/background_icono" />
+            android:background="@drawable/background_icono"
+            app:tint="@color/black" />
 
         <TextView
             android:id="@+id/tvNombre"

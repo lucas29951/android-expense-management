@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingBottom="72dp"> <!-- deja espacio para el botón fijo abajo -->
+        android:paddingBottom="72dp">
 
         <TextView
             android:id="@+id/titulo_categorias"
@@ -27,7 +27,6 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:padding="8dp"
-            android:paddingBottom="72dp"
             android:scrollbars="vertical" />
 
     </LinearLayout>

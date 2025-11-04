@@ -23,6 +23,7 @@ public class AppViewModel extends AndroidViewModel {
     private final LiveData<List<Cuenta>> allCuentas;
     private CuentaRepository cuentaRepo;
     private MutableLiveData<String> appBarTitle = new MutableLiveData<>();
+    private MutableLiveData<Boolean> appBarNavIcon = new MutableLiveData<>();
 
     public AppViewModel(@NonNull Application application) {
         super(application);
@@ -38,6 +39,15 @@ public class AppViewModel extends AndroidViewModel {
     public void setAppBarTitle(String title){
         appBarTitle.setValue(title);
     }
+
+    public LiveData<Boolean> getAppBarNavIcon(){
+        return appBarNavIcon;
+    }
+
+    public void setAppBarNavIcon(Boolean enable){
+        appBarNavIcon.setValue(enable);
+    }
+
 
     // --- Vista Cuentas ---
     public LiveData<List<Cuenta>> listarCuentas() {

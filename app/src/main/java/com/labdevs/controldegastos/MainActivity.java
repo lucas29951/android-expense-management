@@ -33,11 +33,24 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(AppViewModel.class);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
 
-        viewModel.getAppBarTitle().observe(this,title -> binding.topAppBar.setTitle(title));
+        setSupportActionBar(binding.topAppBar);
+
+        viewModel.getAppBarTitle().observe(this, title -> binding.topAppBar.setTitle(title));
+        viewModel.getAppBarNavIcon().observe(this, this::setupAppBarNavIcon);
 
         setContentView(binding.getRoot());
 
         beginFragmentTransaction();
+    }
+
+    private void setupAppBarNavIcon(Boolean enableIcon) {
+        if (enableIcon) {
+            binding.topAppBar.setNavigationIcon(R.drawable.close_24px);
+            binding.topAppBar.setNavigationOnClickListener(v-> getOnBackPressedDispatcher().onBackPressed());
+        } else {
+            binding.topAppBar.setNavigationIcon(null);
+        }
+
     }
 
     private void beginFragmentTransaction() {

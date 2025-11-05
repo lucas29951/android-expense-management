@@ -66,7 +66,7 @@ public class CategoriasABMFragment extends Fragment {
         btn_Borrar.setOnClickListener(v -> eliminarCategoria());
 
         btn_Agregar_Modificar = vista.findViewById(R.id.btn_agregar_modificar);
-        btn_Agregar_Modificar.setOnClickListener(v -> guardarOActualizar());
+        btn_Agregar_Modificar.setOnClickListener(v -> validarYVerificar());
 
         return vista;
     }
@@ -80,6 +80,25 @@ public class CategoriasABMFragment extends Fragment {
                 nombreCat.setText(c.nombre);
                 iconoCat = c.icono;
                 adaptador.notifyDataSetChanged();
+            }
+        });
+
+        viewModel.isNombreValido().observe(getViewLifecycleOwner(), esValido -> {
+            if (esValido == null) return;
+            if (esValido) {             // si el nombre no existe en la BD
+                guardarOActualizar();
+            } else if (!esValido) {
+                if (viewModel.isCategoriaExistente()) {
+                    Categoria c = viewModel.getCategoriaSeleccionada().getValue();
+                    String nombre = nombreCat.getText().toString().trim();
+                    if (nombre.equalsIgnoreCase(c.nombre)) {
+                        guardarOActualizar();
+                    } else {
+                        nombreCat.setError("La categoría ya existe");
+                    }
+                } else {
+                    nombreCat.setError("La categoría ya existe");
+                }
             }
         });
     }
@@ -107,30 +126,39 @@ public class CategoriasABMFragment extends Fragment {
         return iconoCat;
     }
 
+    private void validarYVerificar() {
+        String nombre = nombreCat.getText().toString().trim();
+        // validacion
+        if (nombre.isEmpty()) {
+            nombreCat.setError("El nombre no puede estar vacio");
+            return;
+        }
+        // verificacion
+        viewModel.verificacionPorBD(nombre);
+    }
+
     private void guardarOActualizar() {
-        if (esNombreValido()) {
-            if (viewModel.isCategoriaExistente()) {
-                Categoria c = viewModel.getCategoriaSeleccionada().getValue();
-                c.nombre = nombreCat.getText().toString().trim();
-                c.icono = iconoCat;
-                viewModel.actualizar(c);
-            } else {
-                Categoria c = new Categoria("", null, false);
-                c.nombre = nombreCat.getText().toString().trim();
-                c.icono = iconoCat;
-                viewModel.insertar(c);
-            }
-            volverACategorias();
+        if (viewModel.isCategoriaExistente()) {
+            actualizarCategoria();
+        } else {
+            guardarCategoria();
         }
     }
 
-    private boolean esNombreValido() {
-        String nombre = nombreCat.getText().toString().trim();
-        if (nombre.isEmpty()) {
-            nombreCat.setError("El nombre no puede estar vacio");
-            return false;
-        }
-        return true;
+    private void guardarCategoria() {
+        Categoria c = new Categoria("", null, false);
+        c.nombre = nombreCat.getText().toString().trim();
+        c.icono = iconoCat;
+        viewModel.insertar(c);
+        volverACategorias();
+    }
+
+    private void actualizarCategoria() {
+        Categoria c = viewModel.getCategoriaSeleccionada().getValue();
+        c.nombre = nombreCat.getText().toString().trim();
+        c.icono = iconoCat;
+        viewModel.actualizar(c);
+        volverACategorias();
     }
 
     private void eliminarCategoria() {

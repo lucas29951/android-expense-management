@@ -1,6 +1,8 @@
 package com.labdevs.controldegastos;
 
 import android.app.Application;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -16,7 +18,7 @@ public class CategoriaViewModel extends AndroidViewModel {
     private final CategoriaRepository repository;
     private final LiveData<List<Categoria>> listaCategorias;
     private final MutableLiveData<Categoria> categoriaSeleccionada = new MutableLiveData<>();
-    private String nombreCategoria;
+    private final MutableLiveData<Boolean> nombreValido = new MutableLiveData<>();
     private boolean categoriaExistente;
 
     public CategoriaViewModel(@NonNull Application application) {
@@ -33,8 +35,16 @@ public class CategoriaViewModel extends AndroidViewModel {
         return categoriaSeleccionada;
     }
 
-    public String getNombreCategoria() {
-        return nombreCategoria;
+    public LiveData<Boolean> isNombreValido() {
+        return nombreValido;
+    }
+
+    public void verificacionPorBD(String nombre) {
+        repository.getEjecutor().execute(() -> {
+            int contador = repository.contarPorNombre(nombre);
+            boolean esValido = (contador == 0);
+            new Handler(Looper.getMainLooper()).post(() -> nombreValido.setValue(esValido));
+        });
     }
 
     public boolean isCategoriaExistente() {
@@ -43,11 +53,13 @@ public class CategoriaViewModel extends AndroidViewModel {
 
     public void seleccionarCategoria(Categoria c) {
         categoriaSeleccionada.setValue(c);
+        nombreValido.setValue(null);
         categoriaExistente = true;
     }
 
     public void crearCategoria() {
         categoriaSeleccionada.setValue(new Categoria("", null, false));
+        nombreValido.setValue(null);
         categoriaExistente = false;
     }
 

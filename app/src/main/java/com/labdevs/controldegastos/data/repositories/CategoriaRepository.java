@@ -11,6 +11,7 @@ import com.labdevs.controldegastos.data.entity.Categoria;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CategoriaRepository {
     private CategoriaDAO categoriaDAO;
@@ -21,16 +22,16 @@ public class CategoriaRepository {
         categoriaDAO = db.CategoriaDAO();
     }
 
+    public ExecutorService getEjecutor() {
+        return ejecutor;
+    }
+
     public LiveData<List<Categoria>> obtenerTodas() {
         return categoriaDAO.listarTodas();
     }
 
-    public Categoria obtenerCategoria(String nombre) {
-        return categoriaDAO.buscarPorNombre(nombre);
-    }
-
-    public Categoria obtenerCategoria(int id) {
-        return categoriaDAO.buscarPorId(id);
+    public int contarPorNombre(String nombre) {
+        return categoriaDAO.contarPorNombre(nombre);
     }
 
     public void insertar(Categoria c) {

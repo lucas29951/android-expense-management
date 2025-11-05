@@ -30,4 +30,7 @@ public interface CategoriaDAO {
 
     @Query("SELECT * FROM categorias WHERE nombre = :nombre")
     Categoria buscarPorNombre(String nombre);
+
+    @Query("SELECT COUNT(nombre) FROM categorias WHERE nombre = :nombre")
+    int contarPorNombre(String nombre);
 }

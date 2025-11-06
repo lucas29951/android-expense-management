@@ -20,7 +20,7 @@ public class CuentaRepository {
     }
 
     public void insertarOActualizar(Cuenta cuenta){
-        cuentaDAO.insertOrUpdate(cuenta);
+        AppDatabase.databaseWriteExecutor.execute(() -> cuentaDAO.insertOrUpdate(cuenta));
     }
 
     public void elimiar(Cuenta cuenta){

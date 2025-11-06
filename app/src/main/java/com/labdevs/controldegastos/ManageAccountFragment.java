@@ -3,6 +3,7 @@ package com.labdevs.controldegastos;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,9 +29,30 @@ public class ManageAccountFragment extends Fragment {
         viewModel.setAppBarTitle(getString(R.string.manege_title_1));
         viewModel.setAppBarNavIcon(true);
 
-        binding.selectType.setOnClickListener(imageView -> showMenu(imageView));
+        binding.selectType.setOnClickListener(this::showMenu);
+
+        binding.btnSaveAccount.setOnClickListener(view-> attempAccountRegistration());
+
+        viewModel.getEror().observe(getViewLifecycleOwner(), this::setupErrorHandling);
 
         return binding.getRoot();
+    }
+
+    private void setupErrorHandling(AppViewModel.ErrorET error) {
+        if (error.etId() == R.id.et_account_name){
+            binding.etAccountName.setError(error.message());
+        } else if (error.etId() == R.id.et_initial_balance){
+            binding.etInitialBalance.setError(error.message());
+        }
+    }
+
+    private void attempAccountRegistration() {
+        String nombre = binding.etAccountName.getText().toString();
+        String saldo = binding.etInitialBalance.getText().toString();
+        String tipo = String.valueOf(binding.tvSelectType.getText());
+
+        viewModel.insertar(nombre,saldo,tipo);
+        getActivity().getOnBackPressedDispatcher().onBackPressed();
     }
 
     private void showMenu(View button) {

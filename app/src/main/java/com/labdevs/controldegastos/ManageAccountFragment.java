@@ -3,19 +3,21 @@ package com.labdevs.controldegastos;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 
+import com.labdevs.controldegastos.data.entity.Cuenta;
 import com.labdevs.controldegastos.databinding.FragmentManageAccountBinding;
 
 public class ManageAccountFragment extends Fragment {
 
     private FragmentManageAccountBinding binding;
     private AppViewModel viewModel;
+    private final String saldoFormat = "%.0f";
+    private int idCuentaSelecionada;
 
     public ManageAccountFragment(AppViewModel viewModel) {
         this.viewModel = viewModel;
@@ -31,12 +33,22 @@ public class ManageAccountFragment extends Fragment {
 
         binding.selectType.setOnClickListener(this::showMenu);
 
+        viewModel.getCuentaSelecionada().observe(getViewLifecycleOwner(), this::setSelectedAccountData);
+
         binding.btnSaveAccount.setOnClickListener(view-> attempAccountRegistration());
 
         viewModel.getEror().observe(getViewLifecycleOwner(), this::setupErrorHandling);
 
         return binding.getRoot();
     }
+
+    private void setSelectedAccountData(Cuenta cuenta) {
+        idCuentaSelecionada = cuenta.id;
+        binding.etAccountName.setText(cuenta.nombre);
+        binding.etInitialBalance.setText(String.format(saldoFormat,cuenta.saldo));
+        binding.tvSelectType.setText(cuenta.tipo);
+    }
+
 
     private void setupErrorHandling(AppViewModel.ErrorET error) {
         if (error.etId() == R.id.et_account_name){
@@ -51,8 +63,10 @@ public class ManageAccountFragment extends Fragment {
         String saldo = binding.etInitialBalance.getText().toString();
         String tipo = String.valueOf(binding.tvSelectType.getText());
 
-        viewModel.insertar(nombre,saldo,tipo);
-        getActivity().getOnBackPressedDispatcher().onBackPressed();
+        viewModel.insertar(idCuentaSelecionada,nombre,saldo,tipo);
+        if (viewModel.isCuentaValida()){
+            getActivity().getOnBackPressedDispatcher().onBackPressed();
+        }
     }
 
     private void showMenu(View button) {

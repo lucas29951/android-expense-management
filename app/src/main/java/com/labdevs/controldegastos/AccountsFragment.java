@@ -2,7 +2,6 @@ package com.labdevs.controldegastos;
 
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.labdevs.controldegastos.data.entity.Cuenta;
 import com.labdevs.controldegastos.databinding.FragmentAccountsBinding;
 
 public class AccountsFragment extends Fragment {
@@ -37,17 +37,26 @@ public class AccountsFragment extends Fragment {
         setupRecyclerView();
         viewModel.listarCuentas().observe(getViewLifecycleOwner(), cuentas -> cuentaAdapter.setCuentas(cuentas));
 
+        viewModel.getCuentaSelecionada().observe(getViewLifecycleOwner(), this::loadManageAccountFragment);
+
         return binding.getRoot();
     }
 
+    private void loadManageAccountFragment(Cuenta cuenta) {
+        loadManageAccountFragment();
+    }
+
     private void loadManageAccountFragment() {
-        FragmentTransaction ft = getParentFragmentManager().beginTransaction().replace(R.id.fragment_layout, manageAccountFrag);
-        ft.addToBackStack(null);
-        ft.commit();
+        if (getParentFragmentManager().findFragmentByTag(ManageAccountFragment.class.getSimpleName()) == null) {
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_layout, manageAccountFrag, ManageAccountFragment.class.getSimpleName());
+            ft.addToBackStack(null);
+            ft.commit();
+        }
     }
 
     private void setupRecyclerView() {
-        cuentaAdapter = new CuentaAdapter((MainActivity) getActivity(), viewModel.getListaCuentas());
+        cuentaAdapter = new CuentaAdapter((MainActivity) getActivity(), viewModel.getListaCuentas(), viewModel);
         binding.rvAccountsList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvAccountsList.setAdapter(cuentaAdapter);
     }

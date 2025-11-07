@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.labdevs.controldegastos.data.database.Converters;
@@ -46,7 +47,16 @@ public class MainActivity extends AppCompatActivity {
     private void setupAppBarNavIcon(Boolean enableIcon) {
         if (enableIcon) {
             binding.topAppBar.setNavigationIcon(R.drawable.close_24px);
-            binding.topAppBar.setNavigationOnClickListener(v-> getOnBackPressedDispatcher().onBackPressed());
+            binding.topAppBar.setNavigationOnClickListener(v-> {
+                if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                    // Pop the current fragment off the stack
+                    getSupportFragmentManager().popBackStack();
+                } else {
+                    // Default back action if no fragments are in the back stack
+                    getOnBackPressedDispatcher().onBackPressed();
+                }
+                viewModel.setModificarCuenta(false);
+            });
         } else {
             binding.topAppBar.setNavigationIcon(null);
         }

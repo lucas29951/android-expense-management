@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.labdevs.controldegastos.data.entity.Cuenta;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccountaHolder> {
@@ -19,11 +18,13 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
     private final MainActivity mainActivity;
 
     private List<Cuenta> cuentas;
-    public final String saldoFormat = "%1$,.0f";
+    public static final String saldoFormat = "%1$,.0f";
+    private AppViewModel viewModel;
 
-    public CuentaAdapter(MainActivity mainActivity, List<Cuenta> cuentas) {
+    public CuentaAdapter(MainActivity mainActivity, List<Cuenta> cuentas, AppViewModel viewModel) {
         this.mainActivity = mainActivity;
         this.cuentas = cuentas;
+        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -39,6 +40,11 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
         setAccountIcon(cuenta.tipo,holder);
         holder.tvAccountName.setText(cuenta.nombre);
         holder.getTvAccountBalance.setText(String.format(saldoFormat,cuenta.saldo));
+
+        holder.modifyDeleteAccountIcon.setOnClickListener(view -> {
+            viewModel.setCuentaSelecionada(cuenta);
+            viewModel.setModificarCuenta(true);
+        });
     }
 
     private void setAccountIcon(String tipo, ListAccountaHolder holder) {
@@ -63,6 +69,7 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
         ImageView accountIcon;
         TextView tvAccountName;
         TextView getTvAccountBalance;
+        ImageView modifyDeleteAccountIcon;
 
         public ListAccountaHolder(@NonNull View itemView) {
             super(itemView);
@@ -70,6 +77,7 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
             accountIcon = itemView.findViewById(R.id.account_icon);
             tvAccountName = itemView.findViewById(R.id.tv_account_name);
             getTvAccountBalance = itemView.findViewById(R.id.tv_account_balance);
+            modifyDeleteAccountIcon = itemView.findViewById(R.id.modify_delete_account_icon);
 
         }
     }

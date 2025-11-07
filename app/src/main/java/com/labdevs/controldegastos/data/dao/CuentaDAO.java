@@ -29,5 +29,8 @@ public interface CuentaDAO {
     @Query("SELECT * FROM cuentas")
     LiveData<List<Cuenta>> listAll();
 
+    @Query("SELECT count(*) FROM cuentas AS c WHERE c.nombre LIKE :nombre AND c.tipo LIKE :tipo")
+    int contarPor(String nombre, String tipo);
+
 
 }

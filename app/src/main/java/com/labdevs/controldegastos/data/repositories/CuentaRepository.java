@@ -34,4 +34,8 @@ public class CuentaRepository {
     public List<Cuenta> allCuentas(){
         return cuentaDAO.listarTodas();
     }
+
+    public int contarPor(String nombre, String tipo){
+        return cuentaDAO.contarPor(nombre,tipo);
+    }
 }

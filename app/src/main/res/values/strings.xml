@@ -131,7 +131,7 @@
     <string name="account_icon_label">Icono de la cuenta</string>
     <string name="icon_label_subtitle">Seleccione un icono</string>
     <string name="save_button">Guardar cuenta</string>
-    
+
     <!-- STRINGS SETTINGS VIEW -->
     <string name="settings_title">Ajustes</string>
     <string name="account_subtitle">Cuenta</string>
@@ -153,4 +153,17 @@
     <string name="op_custom_themes_desc">Personaliza tus temas en la app</string>
     <string name="op_custom_icons">Icono de la app</string>
     <string name="op_custom_icons_desc">Cambia tu icono de la app</string>
+
+    <!-- STRINGS MANAGE ACCOUNT VIEW -->
+    <string name="transaction_title">Nueva transaccion</string>
+    <string name="amount_transaction_label">Monto</string>
+    <string name="category_transaction_label">Seleccione la categoria</string>
+    <string name="desc_transaction_label">Descripcion (opcional)</string>
+    <string name="type_transaction_label">Seleccione el tipo de transaccion</string>
+    <string name="origin_account_label">Seleccione la cuenta de origen</string>
+    <string name="dest_account_label">Seleccione la cuenta de destino</string>
+    <string name="save_transaction_button">Guardar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

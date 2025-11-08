@@ -26,6 +26,7 @@ public class AppViewModel extends AndroidViewModel {
     private MutableLiveData<ErrorET> error = new MutableLiveData<>();
     private final LiveData<List<Cuenta>> allCuentas;
     private CuentaRepository cuentaRepo;
+    private MutableLiveData<Cuenta> cuentaSelecionadaEliminar = new MutableLiveData<>();
     private MutableLiveData<Cuenta> cuentaSelecionada = new MutableLiveData<>();
     private boolean modificarCuenta;
     private boolean cuentaValida;
@@ -78,6 +79,14 @@ public class AppViewModel extends AndroidViewModel {
         return cuentaSelecionada;
     }
 
+    public LiveData<Cuenta> getCuentaSelecionadaEliminar() {
+        return cuentaSelecionadaEliminar;
+    }
+
+    public void setCuentaSelecionadaEliminar(Cuenta cuentaSelecionada) {
+        this.cuentaSelecionadaEliminar.setValue(cuentaSelecionada);
+    }
+
     public void setCuentaSelecionada(Cuenta cuentaSelecionada) {
         this.cuentaSelecionada.setValue(cuentaSelecionada);
     }
@@ -115,6 +124,10 @@ public class AppViewModel extends AndroidViewModel {
         cuentaRepo.insertarOActualizar(cuenta);
         // una vez que se termina de actulizar o dar de alta una cuenta -> luego, el boton SIEMPRE tiene la funcionalidad de alta
         modificarCuenta = false;
+    }
+
+    public void eliminar(Cuenta cuenta) {
+        cuentaRepo.elimiar(cuenta);
     }
 
     // --- Vista Informe ---

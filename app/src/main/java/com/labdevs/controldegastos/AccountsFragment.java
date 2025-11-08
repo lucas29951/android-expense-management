@@ -1,13 +1,21 @@
 package com.labdevs.controldegastos;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,6 +28,10 @@ public class AccountsFragment extends Fragment {
     private AppViewModel viewModel;
     private CuentaAdapter cuentaAdapter;
     private ManageAccountFragment manageAccountFrag;
+    private FragmentActivity fragmentActivity;
+    private Cuenta cuentaSeleccionadaEliminar;
+    private AlertDialog.Builder dialog;
+    public final MenuProvider menuProvider = new AccountFragmentMenuProvider();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,19 +39,40 @@ public class AccountsFragment extends Fragment {
 
         binding = FragmentAccountsBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+        fragmentActivity = requireActivity();
 
         manageAccountFrag = new ManageAccountFragment(viewModel);
 
         viewModel.setAppBarTitle(getString(R.string.title_cuentas));
+
+        // top app bar menu
+        fragmentActivity.addMenuProvider(menuProvider);
+
+        if (dialog == null) {
+            setupDeleteDialog();
+        }
 
         binding.btnAddAccount.setOnClickListener(v -> loadManageAccountFragment());
 
         setupRecyclerView();
         viewModel.listarCuentas().observe(getViewLifecycleOwner(), cuentas -> cuentaAdapter.setCuentas(cuentas));
 
-        viewModel.getCuentaSelecionada().observe(getViewLifecycleOwner(), this::loadManageAccountFragment);
-
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        viewModel.getCuentaSelecionada().observe(getViewLifecycleOwner(), this::loadManageAccountFragment);
+        viewModel.getCuentaSelecionadaEliminar().observe(getViewLifecycleOwner(), this::setCuentaSeleccionadaEliminar);
+
+    }
+
+    private void setupDeleteDialog() {
+        dialog = new AlertDialog.Builder(fragmentActivity);
+        dialog.setMessage(R.string.delete_account_dialog_message);
+        dialog.setPositiveButton(R.string.ok, (dialog, id) -> deleteAccount(cuentaSeleccionadaEliminar));
+        dialog.setNegativeButton(R.string.cancel, (dialog, id) -> dialog.cancel());
     }
 
     private void loadManageAccountFragment(Cuenta cuenta) {
@@ -67,4 +100,69 @@ public class AccountsFragment extends Fragment {
         // nav icon de app bar se vuelve a esconder
         viewModel.setAppBarNavIcon(false);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        fragmentActivity.removeMenuProvider(menuProvider);
+    }
+
+    public class AccountFragmentMenuProvider implements MenuProvider {
+
+        private boolean isDelete;
+
+        public AccountFragmentMenuProvider() {
+            this.isDelete = true;
+        }
+
+        @Override
+        public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+            menuInflater.inflate(R.menu.menu_appbar, menu);
+        }
+
+        @Override
+        public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+            int itemId = menuItem.getItemId();
+            if (itemId == R.id.appBarItem1) {
+                loadManageAccountFragment();
+                return true;
+            } else if (itemId == R.id.appBarItem2) {
+                changeIconItemsRV();
+                updateIcon();
+                return true;
+            }
+            return false;
+        }
+
+        private void updateIcon() {
+            isDelete = !isDelete;
+            fragmentActivity.invalidateOptionsMenu();
+        }
+
+        @Override
+        public void onPrepareMenu(@NonNull Menu menu) {
+            MenuProvider.super.onPrepareMenu(menu);
+            menu.findItem(R.id.appBarItem1).setIcon(R.drawable.add_24px);
+            if (isDelete) {
+                menu.findItem(R.id.appBarItem2).setIcon(R.drawable.delete_24px);
+            } else {
+                menu.findItem(R.id.appBarItem2).setIcon(R.drawable.close_24px);
+            }
+            menu.findItem(R.id.appBarItem3).setVisible(false);
+        }
+    }
+
+    private void changeIconItemsRV() {
+        cuentaAdapter.chageAccountIconFunction();
+    }
+
+    private void setCuentaSeleccionadaEliminar(Cuenta cuentaSeleccionadaEliminar) {
+        this.cuentaSeleccionadaEliminar = cuentaSeleccionadaEliminar;
+        dialog.show();
+    }
+
+    private void deleteAccount(Cuenta cuenta) {
+        viewModel.eliminar(cuenta);
+    }
+
 }

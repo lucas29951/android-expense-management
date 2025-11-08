@@ -19,23 +19,23 @@ public class CuentaRepository {
         cuentaDAO = db.CuentaDAO();
     }
 
-    public void insertarOActualizar(Cuenta cuenta){
+    public void insertarOActualizar(Cuenta cuenta) {
         AppDatabase.databaseWriteExecutor.execute(() -> cuentaDAO.insertOrUpdate(cuenta));
     }
 
-    public void elimiar(Cuenta cuenta){
-        cuentaDAO.delete(cuenta);
+    public void elimiar(Cuenta cuenta) {
+        AppDatabase.databaseWriteExecutor.execute(() -> cuentaDAO.delete(cuenta));
     }
 
-    public LiveData<List<Cuenta>> listarCuentas(){
+    public LiveData<List<Cuenta>> listarCuentas() {
         return cuentaDAO.listAll();
     }
 
-    public List<Cuenta> allCuentas(){
+    public List<Cuenta> allCuentas() {
         return cuentaDAO.listarTodas();
     }
 
-    public int contarPor(String nombre, String tipo){
-        return cuentaDAO.contarPor(nombre,tipo);
+    public int contarPor(String nombre, String tipo) {
+        return cuentaDAO.contarPor(nombre, tipo);
     }
 }

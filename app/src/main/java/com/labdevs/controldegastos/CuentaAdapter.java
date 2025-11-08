@@ -20,6 +20,7 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
     private List<Cuenta> cuentas;
     public static final String saldoFormat = "%1$,.0f";
     private AppViewModel viewModel;
+    private boolean isDeleteAccountIcon = false;
 
     public CuentaAdapter(MainActivity mainActivity, List<Cuenta> cuentas, AppViewModel viewModel) {
         this.mainActivity = mainActivity;
@@ -41,10 +42,23 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
         holder.tvAccountName.setText(cuenta.nombre);
         holder.getTvAccountBalance.setText(String.format(saldoFormat,cuenta.saldo));
 
-        holder.modifyDeleteAccountIcon.setOnClickListener(view -> {
-            viewModel.setCuentaSelecionada(cuenta);
-            viewModel.setModificarCuenta(true);
-        });
+        if (!isDeleteAccountIcon){
+            holder.modifyDeleteAccountIcon.setImageResource(R.drawable.edit_24px);
+            holder.modifyDeleteAccountIcon.setOnClickListener(view -> {
+                viewModel.setCuentaSelecionada(cuenta);
+                viewModel.setModificarCuenta(true);
+            });
+        } else {
+            holder.modifyDeleteAccountIcon.setImageResource(R.drawable.delete_24px);
+            holder.modifyDeleteAccountIcon.setOnClickListener(view -> {
+                viewModel.setCuentaSelecionadaEliminar(cuenta);
+            });
+        }
+    }
+
+    public void chageAccountIconFunction(){
+        isDeleteAccountIcon = !isDeleteAccountIcon;
+        notifyDataSetChanged();
     }
 
     private void setAccountIcon(String tipo, ListAccountaHolder holder) {

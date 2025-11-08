@@ -146,4 +146,10 @@
     <string name="custom_subtitle">Personalizacion</string>
     <string name="op_account_details">Detalles de la cuenta</string>
     <string name="op_account_details_desc">Administra tus detalles de cuenta</string>
+    <string name="menu_appbar_item_1">Agregar</string>
+    <string name="menu_appbar_item_2">Eliminar</string>
+    <string name="menu_appbar_item_3">Mas</string>
+    <string name="delete_account_dialog_message">Esta seguro que desea eliminar esta cuenta?</string>
+    <string name="ok">Confirmar</string>
+    <string name="cancel">Cancelar</string>
 </resources>

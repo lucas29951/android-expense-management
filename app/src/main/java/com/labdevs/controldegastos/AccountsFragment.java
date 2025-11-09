@@ -71,10 +71,24 @@ public class AccountsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.getCuentaSelecionada().observe(getViewLifecycleOwner(), this::loadManageAccountFragment);
-        viewModel.getCuentaSelecionadaEliminar().observe(getViewLifecycleOwner(), this::setCuentaSeleccionadaEliminar);
-        viewModel.getCuentaPredeterminada().observe(getViewLifecycleOwner(),this::setCuentaPredeterminada);
-        Log.d("AccountFragment","on view created!");
+        viewModel.getCuentaSelecionada().observe(getViewLifecycleOwner(), cuenta -> {
+            if (!viewModel.hasExecutedOnce()){
+                loadManageAccountFragment(cuenta);
+                viewModel.hasExecutedOnce(true);
+            }
+        });
+        viewModel.getCuentaSelecionadaEliminar().observe(getViewLifecycleOwner(), cuenta -> {
+            if (!viewModel.hasExecutedOnce()){
+                setCuentaSeleccionadaEliminar(cuenta);
+                viewModel.hasExecutedOnce(true);
+            }
+        });
+        viewModel.getCuentaPredeterminada().observe(getViewLifecycleOwner(),cuenta -> {
+            if (!viewModel.hasExecutedOnce()){
+                setCuentaPredeterminada(cuenta);
+                viewModel.hasExecutedOnce(true);
+            }
+        });
     }
 
     private void setCuentaPredeterminada(Cuenta cuenta) {

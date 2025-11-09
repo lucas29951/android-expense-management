@@ -46,18 +46,23 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
 
         // cuenta asociada a toda la app
         if (seleccionarCuentaPredeterminada){
-            holder.tvAccountName.setOnClickListener(view -> viewModel.setCuentaPredeterminada(cuenta));
+            holder.tvAccountName.setOnClickListener(view -> {
+                viewModel.hasExecutedOnce(false);
+                viewModel.setCuentaPredeterminada(cuenta);
+            });
         }
 
         if (!isDeleteAccountIcon){
             holder.modifyDeleteAccountIcon.setImageResource(R.drawable.edit_24px);
             holder.modifyDeleteAccountIcon.setOnClickListener(view -> {
+                viewModel.hasExecutedOnce(false);
                 viewModel.setCuentaSelecionada(cuenta);
                 viewModel.setModificarCuenta(true);
             });
         } else {
             holder.modifyDeleteAccountIcon.setImageResource(R.drawable.delete_24px);
             holder.modifyDeleteAccountIcon.setOnClickListener(view -> {
+                viewModel.hasExecutedOnce(false);
                 viewModel.setCuentaSelecionadaEliminar(cuenta);
             });
         }

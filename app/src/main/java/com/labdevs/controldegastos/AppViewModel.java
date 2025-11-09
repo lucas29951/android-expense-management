@@ -29,6 +29,7 @@ public class AppViewModel extends AndroidViewModel {
     private MutableLiveData<Cuenta> cuentaSelecionada = new MutableLiveData<>();
     private boolean modificarCuenta;
     private boolean cuentaValida;
+    private boolean hasExecutedOnce;
     private MutableLiveData<String> appBarTitle = new MutableLiveData<>();
     private MutableLiveData<Boolean> appBarNavIcon = new MutableLiveData<>();
 
@@ -143,6 +144,14 @@ public class AppViewModel extends AndroidViewModel {
 
     public void eliminar(Cuenta cuenta) {
         cuentaRepo.elimiar(cuenta);
+    }
+
+    public boolean hasExecutedOnce(){
+        return hasExecutedOnce;
+    }
+
+    public void hasExecutedOnce(boolean hasExecutedOnce){
+        this.hasExecutedOnce = hasExecutedOnce;
     }
 
     // --- Vista Informe ---

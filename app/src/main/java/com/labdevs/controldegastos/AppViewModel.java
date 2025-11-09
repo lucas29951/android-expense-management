@@ -1,23 +1,21 @@
 package com.labdevs.controldegastos;
 
 import android.app.Application;
-import android.util.Patterns;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.labdevs.controldegastos.data.database.AppDatabase;
 import com.labdevs.controldegastos.data.entity.Cuenta;
 import com.labdevs.controldegastos.data.entity.Transaccion;
 import com.labdevs.controldegastos.data.model.ItemInforme;
+import com.labdevs.controldegastos.data.model.ItemResume;
 import com.labdevs.controldegastos.data.repositories.CuentaRepository;
 import com.labdevs.controldegastos.data.repositories.TransaccionRepository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class AppViewModel extends AndroidViewModel {
 
@@ -26,6 +24,7 @@ public class AppViewModel extends AndroidViewModel {
     private MutableLiveData<ErrorET> error = new MutableLiveData<>();
     private final LiveData<List<Cuenta>> allCuentas;
     private CuentaRepository cuentaRepo;
+    private MutableLiveData<Cuenta> cuentaPredeterminada = new MutableLiveData<>();
     private MutableLiveData<Cuenta> cuentaSelecionadaEliminar = new MutableLiveData<>();
     private MutableLiveData<Cuenta> cuentaSelecionada = new MutableLiveData<>();
     private boolean modificarCuenta;
@@ -97,6 +96,22 @@ public class AppViewModel extends AndroidViewModel {
 
     public boolean isCuentaValida(){
         return cuentaValida;
+    }
+
+    public LiveData<Cuenta> getCuentaPredeterminada() {
+        return cuentaPredeterminada;
+    }
+
+    public void setCuentaPredeterminada(Cuenta cuentaPredeterminada) {
+        this.cuentaPredeterminada.setValue(cuentaPredeterminada);
+    }
+
+    public Cuenta buscarCuenta(int id){
+        return cuentaRepo.buscarPor(id);
+    }
+
+    public LiveData<List<ItemResume>> listarResumeItems(int cuenta, String tipoTrans){
+        return transaccionRepo.listarItemsResume(cuenta,tipoTrans);
     }
 
     public void insertar(int id, String nombre, String saldo, String tipo) {

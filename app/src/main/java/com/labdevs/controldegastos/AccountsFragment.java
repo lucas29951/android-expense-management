@@ -1,6 +1,8 @@
 package com.labdevs.controldegastos;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,13 +35,18 @@ public class AccountsFragment extends Fragment {
     private Cuenta cuentaSeleccionadaEliminar;
     private AlertDialog.Builder dialog;
     public final MenuProvider menuProvider = new AccountFragmentMenuProvider();
+    private boolean seleccionarCuentaPredeterminada;
+
+    public AccountsFragment(boolean seleccionarCuentaPredeterminada) {
+        this.seleccionarCuentaPredeterminada = seleccionarCuentaPredeterminada;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = FragmentAccountsBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+        binding = FragmentAccountsBinding.inflate(inflater, container, false);
         fragmentActivity = requireActivity();
 
         manageAccountFrag = new ManageAccountFragment(viewModel);
@@ -65,7 +73,17 @@ public class AccountsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         viewModel.getCuentaSelecionada().observe(getViewLifecycleOwner(), this::loadManageAccountFragment);
         viewModel.getCuentaSelecionadaEliminar().observe(getViewLifecycleOwner(), this::setCuentaSeleccionadaEliminar);
+        viewModel.getCuentaPredeterminada().observe(getViewLifecycleOwner(),this::setCuentaPredeterminada);
+        Log.d("AccountFragment","on view created!");
+    }
 
+    private void setCuentaPredeterminada(Cuenta cuenta) {
+        SharedPreferences preferences = fragmentActivity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("cuenta",cuenta.id);
+        editor.apply();
+        Log.d("AccountFragment","se agrego la cuenta (id:"+ cuenta.id + ") como predeterminada");
+        getParentFragmentManager().popBackStack();
     }
 
     private void setupDeleteDialog() {
@@ -89,7 +107,7 @@ public class AccountsFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        cuentaAdapter = new CuentaAdapter((MainActivity) getActivity(), viewModel.getListaCuentas(), viewModel);
+        cuentaAdapter = new CuentaAdapter((MainActivity) getActivity(), viewModel.getListaCuentas(), viewModel,seleccionarCuentaPredeterminada);
         binding.rvAccountsList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvAccountsList.setAdapter(cuentaAdapter);
     }

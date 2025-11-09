@@ -38,4 +38,8 @@ public class CuentaRepository {
     public int contarPor(String nombre, String tipo) {
         return cuentaDAO.contarPor(nombre, tipo);
     }
+
+    public Cuenta buscarPor(int id){
+        return cuentaDAO.buscarPorId(id);
+    }
 }

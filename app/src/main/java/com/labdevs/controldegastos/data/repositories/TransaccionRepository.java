@@ -2,10 +2,13 @@ package com.labdevs.controldegastos.data.repositories;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+
 import com.labdevs.controldegastos.data.dao.TransaccionDAO;
 import com.labdevs.controldegastos.data.database.AppDatabase;
 import com.labdevs.controldegastos.data.entity.Transaccion;
 import com.labdevs.controldegastos.data.model.ItemInforme;
+import com.labdevs.controldegastos.data.model.ItemResume;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -164,5 +167,9 @@ public class TransaccionRepository {
                 this.fechaFin = fechaFin;
             }
         }
+    }
+
+    public LiveData<List<ItemResume>> listarItemsResume(int cuenta, String tipoTrans){
+        return transaccionDAO.listarItemsResume(cuenta,tipoTrans);
     }
 }

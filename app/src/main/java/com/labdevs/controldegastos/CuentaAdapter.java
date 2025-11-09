@@ -21,11 +21,13 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
     public static final String saldoFormat = "%1$,.0f";
     private AppViewModel viewModel;
     private boolean isDeleteAccountIcon = false;
+    private boolean seleccionarCuentaPredeterminada;
 
-    public CuentaAdapter(MainActivity mainActivity, List<Cuenta> cuentas, AppViewModel viewModel) {
+    public CuentaAdapter(MainActivity mainActivity, List<Cuenta> cuentas, AppViewModel viewModel,boolean seleccionarCuentaPredeterminada) {
         this.mainActivity = mainActivity;
         this.cuentas = cuentas;
         this.viewModel = viewModel;
+        this.seleccionarCuentaPredeterminada = seleccionarCuentaPredeterminada;
     }
 
     @NonNull
@@ -41,6 +43,11 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
         setAccountIcon(cuenta.tipo,holder);
         holder.tvAccountName.setText(cuenta.nombre);
         holder.getTvAccountBalance.setText(String.format(saldoFormat,cuenta.saldo));
+
+        // cuenta asociada a toda la app
+        if (seleccionarCuentaPredeterminada){
+            holder.tvAccountName.setOnClickListener(view -> viewModel.setCuentaPredeterminada(cuenta));
+        }
 
         if (!isDeleteAccountIcon){
             holder.modifyDeleteAccountIcon.setImageResource(R.drawable.edit_24px);

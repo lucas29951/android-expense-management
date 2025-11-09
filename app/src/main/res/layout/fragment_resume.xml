@@ -16,33 +16,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="16dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/linearLayout"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:padding="16dp"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent">-->
 
-                <TextView
-                    android:id="@+id/tv_resume_title"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/resume_title"
-                    android:textAlignment="center"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_resume_title"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:text="@string/resume_title"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:textStyle="bold" />-->
 
-                <ImageView
-                    android:id="@+id/iv_setting_icon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/settings_24px" />
-            </LinearLayout>
+<!--                <ImageView-->
+<!--                    android:id="@+id/iv_setting_icon"-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@drawable/settings_24px" />-->
+<!--            </LinearLayout>-->
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_total"
@@ -50,9 +50,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 app:cardElevation="2dp"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -80,16 +80,58 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <com.alanvan.segmented_control.SegmentedControlGroup
+                android:id="@+id/segmentedButtonsResume"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin"
+                app:layout_constraintTop_toBottomOf="@id/card_total"
+                app:layout_constraintBottom_toTopOf="@+id/tv_recent_expenses"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:singleSelection="true">
+
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:id="@+id/segmentedButtonsResumeButton1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toggle_button_label1" />
+
+                <com.alanvan.segmented_control.SegmentedControlButton
+                    android:id="@+id/segmentedButtonsResumeButton2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/toggle_button_label2" />
+
+                <!--            <com.google.android.material.button.MaterialButton-->
+                <!--                android:id="@+id/toggleButton1"-->
+                <!--                style="?attr/materialButtonOutlinedStyle"-->
+                <!--                android:layout_width="0dp"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_weight="1"-->
+                <!--                android:insetLeft="@dimen/margin"-->
+                <!--                android:text="@string/toggle_button_label1" />-->
+
+                <!--            <com.google.android.material.button.MaterialButton-->
+                <!--                android:id="@+id/toggleButton2"-->
+                <!--                style="?attr/materialButtonOutlinedStyle"-->
+                <!--                android:layout_width="0dp"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_weight="1"-->
+                <!--                android:insetRight="@dimen/margin"-->
+                <!--                android:text="@string/toggle_button_label2" />-->
+            </com.alanvan.segmented_control.SegmentedControlGroup>
+
             <TextView
-                android:id="@+id/tv_recent_expenses"
+                android:id="@+id/tv_recent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="16dp"
                 android:paddingTop="8dp"
-                android:text="@string/expenses_section_title"
+                android:text="@string/income_section_title"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/card_total"
+                app:layout_constraintTop_toBottomOf="@id/segmentedButtonsResume"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -99,35 +141,35 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 android:layout_marginHorizontal="8dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_recent_expenses"
+                app:layout_constraintTop_toBottomOf="@id/tv_recent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:listitem="@layout/list_item_resume" />
 
-            <TextView
-                android:id="@+id/tv_recent_income"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="8dp"
-                android:text="@string/income_section_title"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/rv_expenses_list"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+<!--            <TextView-->
+<!--                android:id="@+id/tv_recent_income"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingHorizontal="16dp"-->
+<!--                android:paddingTop="8dp"-->
+<!--                android:text="@string/income_section_title"-->
+<!--                android:textSize="18sp"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/rv_expenses_list"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"/>-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_income_list"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:layout_margin="8dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_recent_income"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/list_item_resume"/>
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/rv_income_list"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:nestedScrollingEnabled="false"-->
+<!--                android:layout_margin="8dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/tv_recent_income"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                tools:listitem="@layout/list_item_resume"/>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

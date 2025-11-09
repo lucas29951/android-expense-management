@@ -34,7 +34,7 @@ public class AccountsFragment extends Fragment {
     private FragmentActivity fragmentActivity;
     private Cuenta cuentaSeleccionadaEliminar;
     private AlertDialog.Builder dialog;
-    public final MenuProvider menuProvider = new AccountFragmentMenuProvider();
+    public final AccountFragmentMenuProvider menuProvider = new AccountFragmentMenuProvider();
     private boolean seleccionarCuentaPredeterminada;
 
     public AccountsFragment(boolean seleccionarCuentaPredeterminada) {
@@ -136,6 +136,7 @@ public class AccountsFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        menuProvider.close();
         fragmentActivity.removeMenuProvider(menuProvider);
     }
 
@@ -169,6 +170,12 @@ public class AccountsFragment extends Fragment {
         private void updateIcon() {
             isDelete = !isDelete;
             fragmentActivity.invalidateOptionsMenu();
+        }
+
+        public void close(){
+            if (!isDelete){
+                isDelete = !isDelete;
+            }
         }
 
         @Override

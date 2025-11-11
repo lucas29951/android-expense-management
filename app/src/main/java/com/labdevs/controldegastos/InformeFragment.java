@@ -23,14 +23,14 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.labdevs.controldegastos.data.model.ItemInforme;
 import com.labdevs.controldegastos.data.repositories.TransaccionRepository;
+import com.labdevs.controldegastos.databinding.FragmentInformeBinding;
+import com.labdevs.controldegastos.databinding.FragmentResumeBinding;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.labdevs.controldegastos.data.repositories.TransaccionRepository.FiltrosTransacciones.*;
-
-import kotlin.Unit;
 
 public class InformeFragment extends Fragment {
 
@@ -42,12 +42,10 @@ public class InformeFragment extends Fragment {
     private Fragment filtroPeriodo;
     private AppViewModel viewModel;
     private List<PieEntry> values = new ArrayList<>();
-    private PieChart grafico;
-    private TextView total;
     private final String totalValueFormat = "%1$,.0f";
     private CustomLegendAdapter legendAdapter;
-    private RecyclerView customLegendView;
     private final String[] tiposTransaccion = {"ingreso","gasto"};
+    private FragmentInformeBinding binding;
 
     public InformeFragment() {
         super();
@@ -72,34 +70,26 @@ public class InformeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_informe, container, false);
-
+        binding = FragmentInformeBinding.inflate(inflater,container,false);
         viewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
 
         viewModel.setAppBarTitle(getString(R.string.title_informe));
 
-        SegmentedControlGroup segmentedControl = view.findViewById(R.id.segmentedButtonsInforme);
-        segmentedControl.setOnSelectedOptionChangeCallback(index -> {
+        binding.segmentedButtonsInforme.setOnSelectedOptionChangeCallback(index -> {
             filtrosTransaccion.setFiltroTipoTrans(getIndex(index));
             loadChart();
             return null;
         });
 
-        view.findViewById(R.id.tipoFiltroButton).setOnClickListener(v -> showMenu(view, v, R.menu.menu_boton_informe));
-
-        // recyclerView para las legends
-        customLegendView = view.findViewById(R.id.customLegends);
-
-        total = view.findViewById(R.id.total);
+        binding.tipoFiltroButton.setOnClickListener(v -> showMenu(v, R.menu.menu_boton_informe));
 
         loadFiltroGenFragment();
 
-        grafico = view.findViewById(R.id.graficoInforme);
-        initializeChart(grafico, viewModel.listarTransacciones(filtrosTransaccion));
+        initializeChart(binding.graficoInforme, viewModel.listarTransacciones(filtrosTransaccion));
 
         viewModel.getFiltroFecha().observe(getViewLifecycleOwner(), this::cambiarFiltroFecha);
 
-        return view;
+        return binding.getRoot();
     }
 
     private String getIndex(Integer index) {
@@ -128,16 +118,16 @@ public class InformeFragment extends Fragment {
         String totalValueStr = String.format(totalValueFormat, totalValue);
         setTotalText(totalValueStr);
         changeChartCenterText(totalValueStr);
-        setPieDataSet(grafico);
+        setPieDataSet(binding.graficoInforme);
     }
 
     private void changeChartCenterText(String total) {
-        grafico.setCenterText("Total\n$ " + total);
-        grafico.invalidate();
+        binding.graficoInforme.setCenterText("Total\n$ " + total);
+        binding.graficoInforme.invalidate();
     }
 
     private void setTotalText(String total) {
-        this.total.setText("$" + total);
+        binding.total.setText("$" + total);
     }
 
     private Float getFloatTotalValue(List<PieEntry> entries) {
@@ -198,8 +188,8 @@ public class InformeFragment extends Fragment {
     }
 
     private void setupLayoutManagerAndAdapter() {
-        customLegendView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        customLegendView.setAdapter(legendAdapter);
+        binding.customLegends.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.customLegends.setAdapter(legendAdapter);
     }
 
 
@@ -215,7 +205,7 @@ public class InformeFragment extends Fragment {
         showLegends(dataSet);
     }
 
-    private void showMenu(View v, View button, int menuRes) {
+    private void showMenu(View button, int menuRes) {
         PopupMenu popup = new PopupMenu(getActivity(), button);
         popup.getMenuInflater().inflate(menuRes, popup.getMenu());
 
@@ -225,25 +215,25 @@ public class InformeFragment extends Fragment {
                 filtrosTransaccion.setTipoFiltroFecha(TipoFiltroFecha.PERIODO);
                 loadChart();
 
-                changeMainButtonText(v, "Semanal");
+                changeMainButtonText("Semanal");
                 loadFiltroGenFragment(FiltroGeneralFragment.TipoFiltroGen.SEMANAL);
                 return true;
             } else if (itemId == R.id.menu_informe_opcion_2) {
                 filtrosTransaccion.setTipoFiltroFecha(TipoFiltroFecha.MES);
                 loadChart();
 
-                changeMainButtonText(v, "Mensual");
+                changeMainButtonText("Mensual");
                 loadFiltroGenFragment(FiltroGeneralFragment.TipoFiltroGen.MENSUAL);
                 return true;
             } else if (itemId == R.id.menu_informe_opcion_3) {
                 filtrosTransaccion.setTipoFiltroFecha(TipoFiltroFecha.ANIO);
                 loadChart();
 
-                changeMainButtonText(v, "Anual");
+                changeMainButtonText("Anual");
                 loadFiltroGenFragment(FiltroGeneralFragment.TipoFiltroGen.ANUAL);
                 return true;
             } else if (itemId == R.id.menu_informe_opcion_4) {
-                changeMainButtonText(v, "Periodo");
+                changeMainButtonText("Periodo");
                 getChildFragmentManager().beginTransaction().replace(R.id.filtrosFragment, filtroPeriodo).commit();
                 return true;
             }
@@ -254,9 +244,8 @@ public class InformeFragment extends Fragment {
 
     }
 
-    private void changeMainButtonText(View v, String str) {
-        Button button = v.findViewById(R.id.tipoFiltroButton);
-        button.setText(str);
+    private void changeMainButtonText(String str) {
+        binding.tipoFiltroButton.setText(str);
     }
 
     private void loadFiltroGenFragment(FiltroGeneralFragment.TipoFiltroGen tipoFiltroGen) {

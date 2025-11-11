@@ -190,13 +190,18 @@ public class InformeFragment extends Fragment {
     private void loadCustomLegend(List<CustomLegendAdapter.ItemLegend> legends) {
         if (legendAdapter == null) {
             legendAdapter = new CustomLegendAdapter((MainActivity) getActivity(), legends);
-            customLegendView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            customLegendView.setAdapter(legendAdapter);
+            setupLayoutManagerAndAdapter();
         } else {
+            setupLayoutManagerAndAdapter();
             legendAdapter.setLegends(legends);
-            legendAdapter.notifyDataSetChanged();
         }
     }
+
+    private void setupLayoutManagerAndAdapter() {
+        customLegendView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        customLegendView.setAdapter(legendAdapter);
+    }
+
 
     private void setPieDataSet(PieChart chart) {
         PieDataSet dataSet = new PieDataSet(values, "Categorias");

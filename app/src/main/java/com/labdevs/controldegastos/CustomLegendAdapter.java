@@ -44,6 +44,7 @@ public class CustomLegendAdapter extends RecyclerView.Adapter<CustomLegendAdapte
 
     public void setLegends(List<ItemLegend> legends) {
         this.legends = legends;
+        notifyDataSetChanged();
     }
 
     public class ListLegendHolder extends RecyclerView.ViewHolder {

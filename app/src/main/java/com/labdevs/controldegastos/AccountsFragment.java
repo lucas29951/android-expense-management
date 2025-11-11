@@ -67,7 +67,6 @@ public class AccountsFragment extends Fragment {
         viewModel.getCuentaSelecionada().observe(getViewLifecycleOwner(), cuenta -> {
             if (!viewModel.hasExecutedOnce()){
                 loadManageAccountFragment(cuenta);
-                viewModel.hasExecutedOnce(true);
             }
         });
         viewModel.getCuentaSelecionadaEliminar().observe(getViewLifecycleOwner(), cuenta -> {

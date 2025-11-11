@@ -2,8 +2,11 @@ package com.labdevs.controldegastos;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,13 +36,24 @@ public class ManageAccountFragment extends Fragment {
 
         binding.selectType.setOnClickListener(this::showMenu);
 
-        viewModel.getCuentaSelecionada().observe(getViewLifecycleOwner(), this::setSelectedAccountData);
-
         binding.btnSaveAccount.setOnClickListener(view-> attempAccountRegistration());
 
         viewModel.getEror().observe(getViewLifecycleOwner(), this::setupErrorHandling);
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        viewModel.getCuentaSelecionada().observe(getViewLifecycleOwner(), cuenta -> {
+            if (!viewModel.hasExecutedOnce()){
+                setSelectedAccountData(cuenta);
+                viewModel.hasExecutedOnce(true);
+            }
+        });
+
     }
 
     private void setSelectedAccountData(Cuenta cuenta) {

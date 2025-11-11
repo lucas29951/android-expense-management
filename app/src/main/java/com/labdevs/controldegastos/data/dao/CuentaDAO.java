@@ -32,5 +32,8 @@ public interface CuentaDAO {
     @Query("SELECT count(*) FROM cuentas AS c WHERE c.nombre LIKE :nombre AND c.tipo LIKE :tipo")
     int contarPor(String nombre, String tipo);
 
+    @Query("SELECT sum(c.saldo) FROM cuentas as c")
+    double sumPorSaldo();
+
 
 }

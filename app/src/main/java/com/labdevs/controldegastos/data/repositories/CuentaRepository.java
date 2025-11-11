@@ -42,4 +42,8 @@ public class CuentaRepository {
     public Cuenta buscarPor(int id){
         return cuentaDAO.buscarPorId(id);
     }
+
+    public double sumarSaldoCuentas(){
+        return cuentaDAO.sumPorSaldo();
+    }
 }

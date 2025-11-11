@@ -145,6 +145,10 @@ public class AppViewModel extends AndroidViewModel {
         this.hasExecutedOnce = hasExecutedOnce;
     }
 
+    public double sumarSaldoCuentas(){
+        return cuentaRepo.sumarSaldoCuentas();
+    }
+
     // --- Vista Informe ---
     public void insertar(Transaccion transaccion) {
         transaccionRepo.insertar(transaccion);

@@ -41,7 +41,8 @@ public class ResumeFragment extends Fragment {
             return null;
         });
 
-        binding.tvCardTotalAmount.setText("$ 0");
+        binding.tvCardTotalAmount.setText("$ "+String.format(CuentaAdapter.saldoFormat,viewModel.sumarSaldoCuentas()));
+
         viewModel.listarResumeItems(tipoTrans).observe(getViewLifecycleOwner(), items -> resumeAdapter.submitList(items));
 
         setupRecycleView();

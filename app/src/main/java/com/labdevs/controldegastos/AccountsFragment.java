@@ -1,8 +1,6 @@
 package com.labdevs.controldegastos;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,7 +12,6 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,11 +32,7 @@ public class AccountsFragment extends Fragment {
     private Cuenta cuentaSeleccionadaEliminar;
     private AlertDialog.Builder dialog;
     public final AccountFragmentMenuProvider menuProvider = new AccountFragmentMenuProvider();
-    private boolean seleccionarCuentaPredeterminada;
 
-    public AccountsFragment(boolean seleccionarCuentaPredeterminada) {
-        this.seleccionarCuentaPredeterminada = seleccionarCuentaPredeterminada;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,21 +76,6 @@ public class AccountsFragment extends Fragment {
                 viewModel.hasExecutedOnce(true);
             }
         });
-        viewModel.getCuentaPredeterminada().observe(getViewLifecycleOwner(),cuenta -> {
-            if (!viewModel.hasExecutedOnce()){
-                setCuentaPredeterminada(cuenta);
-                viewModel.hasExecutedOnce(true);
-            }
-        });
-    }
-
-    private void setCuentaPredeterminada(Cuenta cuenta) {
-        SharedPreferences preferences = fragmentActivity.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("cuenta",cuenta.id);
-        editor.apply();
-        Log.d("AccountFragment","se agrego la cuenta (id:"+ cuenta.id + ") como predeterminada");
-        getParentFragmentManager().popBackStack();
     }
 
     private void setupDeleteDialog() {
@@ -121,7 +99,7 @@ public class AccountsFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        cuentaAdapter = new CuentaAdapter((MainActivity) getActivity(), viewModel.getListaCuentas(), viewModel,seleccionarCuentaPredeterminada);
+        cuentaAdapter = new CuentaAdapter((MainActivity) getActivity(), viewModel.getListaCuentas(), viewModel);
         binding.rvAccountsList.setLayoutManager(new LinearLayoutManager(getActivity()));
         binding.rvAccountsList.setAdapter(cuentaAdapter);
     }

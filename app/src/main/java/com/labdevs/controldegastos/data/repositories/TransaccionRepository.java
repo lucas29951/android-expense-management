@@ -169,7 +169,7 @@ public class TransaccionRepository {
         }
     }
 
-    public LiveData<List<ItemResume>> listarItemsResume(int cuenta, String tipoTrans){
-        return transaccionDAO.listarItemsResume(cuenta,tipoTrans);
+    public LiveData<List<ItemResume>> listarItemsResume(String tipoTrans){
+        return transaccionDAO.listarItemsResume(tipoTrans);
     }
 }

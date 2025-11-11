@@ -1,34 +1,20 @@
 package com.labdevs.controldegastos;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.labdevs.controldegastos.data.database.Converters;
-import com.labdevs.controldegastos.data.entity.Transaccion;
 import com.labdevs.controldegastos.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private List<Fragment> fragments = new ArrayList<>();
+    private final List<Fragment> fragments = new ArrayList<>();
     private AppViewModel viewModel;
 
 
@@ -44,13 +30,6 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getAppBarNavIcon().observe(this, this::setupAppBarNavIcon);
 
         setContentView(binding.getRoot());
-
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-
-        // TODO: implementar en caso de que no haya ninguna cuenta asociada al iniciar la app
-        if (!(preferences.getInt("cuenta", 0) > 0)) {
-            setCurrentFragment(new AccountsFragment(true));
-        }
 
         setupFragmentTransaction();
     }
@@ -82,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void beginFragmentTransaction() {
         loadFragments();
+        setCurrentFragment(fragments.get(0));
         binding.bottomNav.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.item_1) {
                 setCurrentFragment(fragments.get(0));
@@ -108,18 +88,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadFragments() {
         fragments.add(new ResumeFragment());
-        fragments.add(new AccountsFragment(false));
+        fragments.add(new AccountsFragment());
         fragments.add(new BlankFragment());
         fragments.add(new InformeFragment());
         fragments.add(new SettingsFragment());
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("cuenta", -1);
-        editor.commit();
-    }
 }

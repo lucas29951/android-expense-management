@@ -39,6 +39,6 @@ public interface TransaccionDAO {
     @Query("SELECT sum(t.monto) AS 'monto', c.nombre FROM transacciones AS t JOIN categorias AS c ON t.id_categoria = c.id WHERE t.id_cuenta_origen = :cuenta AND t.tipo_transaccion LIKE :tipoTrans AND strftime('%Y',t.fecha_hora) = :year GROUP BY c.nombre")
     List<ItemInforme> listarPorAnio(int cuenta, String tipoTrans, String year);
 
-    @Query("SELECT t.id, t.tipo_transaccion, t.monto, t.fecha_hora, c.nombre, c.icono FROM transacciones AS t JOIN categorias AS c ON t.id_categoria = c.id WHERE t.id_cuenta_origen = :cuenta AND t.tipo_transaccion LIKE :tipoTrans")
-    LiveData<List<ItemResume>> listarItemsResume(int cuenta, String tipoTrans);
+    @Query("SELECT t.id, t.tipo_transaccion, t.monto, t.fecha_hora, c.nombre, c.icono FROM transacciones AS t JOIN categorias AS c ON t.id_categoria = c.id WHERE t.tipo_transaccion LIKE :tipoTrans")
+    LiveData<List<ItemResume>> listarItemsResume(String tipoTrans);
 }

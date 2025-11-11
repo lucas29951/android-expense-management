@@ -24,7 +24,6 @@ public class AppViewModel extends AndroidViewModel {
     private MutableLiveData<ErrorET> error = new MutableLiveData<>();
     private final LiveData<List<Cuenta>> allCuentas;
     private CuentaRepository cuentaRepo;
-    private MutableLiveData<Cuenta> cuentaPredeterminada = new MutableLiveData<>();
     private MutableLiveData<Cuenta> cuentaSelecionadaEliminar = new MutableLiveData<>();
     private MutableLiveData<Cuenta> cuentaSelecionada = new MutableLiveData<>();
     private boolean modificarCuenta;
@@ -99,20 +98,12 @@ public class AppViewModel extends AndroidViewModel {
         return cuentaValida;
     }
 
-    public LiveData<Cuenta> getCuentaPredeterminada() {
-        return cuentaPredeterminada;
-    }
-
-    public void setCuentaPredeterminada(Cuenta cuentaPredeterminada) {
-        this.cuentaPredeterminada.setValue(cuentaPredeterminada);
-    }
-
     public Cuenta buscarCuenta(int id){
         return cuentaRepo.buscarPor(id);
     }
 
-    public LiveData<List<ItemResume>> listarResumeItems(int cuenta, String tipoTrans){
-        return transaccionRepo.listarItemsResume(cuenta,tipoTrans);
+    public LiveData<List<ItemResume>> listarResumeItems(String tipoTrans){
+        return transaccionRepo.listarItemsResume(tipoTrans);
     }
 
     public void insertar(int id, String nombre, String saldo, String tipo) {

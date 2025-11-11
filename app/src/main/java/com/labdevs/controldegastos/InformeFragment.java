@@ -77,6 +77,7 @@ public class InformeFragment extends Fragment {
 
         binding.segmentedButtonsInforme.setOnSelectedOptionChangeCallback(index -> {
             filtrosTransaccion.setFiltroTipoTrans(getIndex(index));
+            setTitles(index);
             loadChart();
             return null;
         });
@@ -90,6 +91,16 @@ public class InformeFragment extends Fragment {
         viewModel.getFiltroFecha().observe(getViewLifecycleOwner(), this::cambiarFiltroFecha);
 
         return binding.getRoot();
+    }
+
+    private void setTitles(Integer index) {
+        if (index == 0){
+            binding.tituloPrincipal.setText(getString(R.string.titulo_informe_principal_ingresos));
+            binding.tituloSecundario.setText(getString(R.string.titulo_informe_secundario_ingresos));
+        } else {
+            binding.tituloPrincipal.setText(getString(R.string.titulo_informe_principal_gastos));
+            binding.tituloSecundario.setText(getString(R.string.titulo_informe_secundario_gastos));
+        }
     }
 
     private String getIndex(Integer index) {

@@ -1,7 +1,6 @@
 package com.labdevs.controldegastos;
 
 import android.app.Application;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -109,15 +108,18 @@ public class AppViewModel extends AndroidViewModel {
     public void insertar(int id, String nombre, String saldo, String tipo) {
         cuentaValida = false;
         if (nombre.isEmpty()) {
+            hasExecutedOnce = false;
             error.setValue(new ErrorET("El nombre es obligario", R.id.et_account_name));
             return;
         }
         if (saldo.isEmpty() || !saldo.matches("\\d+") || saldo.length() > 12) {
+            hasExecutedOnce = false;
             error.setValue(new ErrorET("Rango de saldo invalido!", R.id.et_initial_balance));
             return;
         }
         if (!modificarCuenta){
             if (cuentaRepo.contarPor(nombre,tipo) > 0){
+                hasExecutedOnce = false;
                 error.setValue(new ErrorET("Ya existe cuenta con ese mismo nombre y tipo",R.id.et_account_name));
                 return;
             }

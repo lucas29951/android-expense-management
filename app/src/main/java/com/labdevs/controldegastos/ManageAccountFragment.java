@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,8 +37,6 @@ public class ManageAccountFragment extends Fragment {
 
         binding.btnSaveAccount.setOnClickListener(view-> attempAccountRegistration());
 
-        viewModel.getEror().observe(getViewLifecycleOwner(), this::setupErrorHandling);
-
         return binding.getRoot();
     }
 
@@ -50,6 +47,13 @@ public class ManageAccountFragment extends Fragment {
         viewModel.getCuentaSelecionada().observe(getViewLifecycleOwner(), cuenta -> {
             if (!viewModel.hasExecutedOnce()){
                 setSelectedAccountData(cuenta);
+                viewModel.hasExecutedOnce(true);
+            }
+        });
+
+        viewModel.getEror().observe(getViewLifecycleOwner(), error -> {
+            if (!viewModel.hasExecutedOnce()){
+                setupErrorHandling(error);
                 viewModel.hasExecutedOnce(true);
             }
         });

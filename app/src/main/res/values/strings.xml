@@ -98,6 +98,7 @@
     <string name="title_informe">Informe</string>
     <string name="title_cuentas">Cuentas</string>
 
+
     <!-- STRINGS INFORME VIEW -->
     <string name="toggle_button_label1">Ingresos</string>
     <string name="toggle_button_label2">Gastos</string>
@@ -134,6 +135,16 @@
     <string name="type_label_subtitle">Seleccione un tipo</string>
     <string name="save_button">Guardar cuenta</string>
 
+    <!-- DELETE ACCOUNT DIALOG -->
+    <string name="menu_appbar_item_1">Agregar</string>
+    <string name="menu_appbar_item_2">Eliminar</string>
+    <string name="menu_appbar_item_3">Mas</string>
+    <string name="delete_account_dialog_message">Esta seguro que desea eliminar esta cuenta?</string>
+    <string name="ok">Confirmar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="total_amount_format">%1$,.0f</string>
+
+
     <!-- STRINGS SELECT TYPE MENU VIEW -->
     <string name="menu_tipo_cuenta_op_texto_1">Efectivo</string>
     <string name="menu_tipo_cuenta_op_texto_2">Tarjeta de Credito</string>
@@ -147,11 +158,31 @@
     <string name="custom_subtitle">Personalizacion</string>
     <string name="op_account_details">Detalles de la cuenta</string>
     <string name="op_account_details_desc">Administra tus detalles de cuenta</string>
-    <string name="menu_appbar_item_1">Agregar</string>
-    <string name="menu_appbar_item_2">Eliminar</string>
-    <string name="menu_appbar_item_3">Mas</string>
-    <string name="delete_account_dialog_message">Esta seguro que desea eliminar esta cuenta?</string>
-    <string name="ok">Confirmar</string>
-    <string name="cancel">Cancelar</string>
-    <string name="total_amount_format">%1$,.0f</string>
+    <string name="op_account_susc">Suscripcion</string>
+    <string name="op_account_susc_desc">Administra tus suscripciones</string>
+    <string name="op_account_friends">Invitar amigos</string>
+    <string name="op_account_friends_desc">Invita a amigos a unirse</string>
+    <string name="op_prefs_app">Preferencias de la app</string>
+    <string name="op_prefs_app_desc">Personaliza tu experiencia en la app</string>
+    <string name="op_prefs_notif">Notificaciones</string>
+    <string name="op_prefs_notif_desc">Administra las notificaciones</string>
+    <string name="op_prefs_db">Gestion de datos</string>
+    <string name="op_prefs_db_desc">Administra tus datos</string>
+    <string name="op_custom_themes">Temas</string>
+    <string name="op_custom_themes_desc">Personaliza tus temas en la app</string>
+    <string name="op_custom_icons">Icono de la app</string>
+    <string name="op_custom_icons_desc">Cambia tu icono de la app</string>
+
+    <!-- STRINGS MANAGE ACCOUNT VIEW -->
+    <string name="transaction_title">Nueva transaccion</string>
+    <string name="amount_transaction_label">Monto</string>
+    <string name="category_transaction_label">Seleccione la categoria</string>
+    <string name="desc_transaction_label">Descripcion (opcional)</string>
+    <string name="type_transaction_label">Seleccione el tipo de transaccion</string>
+    <string name="origin_account_label">Seleccione la cuenta de origen</string>
+    <string name="dest_account_label">Seleccione la cuenta de destino</string>
+    <string name="save_transaction_button">Guardar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

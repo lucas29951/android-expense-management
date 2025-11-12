@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TransactionFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/close_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/close_24px"
+                    android:padding="4dp"/>
+
+                <TextView
+                    android:id="@+id/tv_transaction_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/transaction_title"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:paddingEnd="24dp"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/et_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/amount_transaction_label"
+                android:inputType="numberDecimal"
+                android:drawableEnd="@drawable/attach_money_24px"
+                android:padding="12dp"
+                android:layout_marginTop="24dp"
+                android:textColor="@color/black"/>
+
+            <Spinner
+                android:id="@+id/sp_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:spinnerMode="dropdown"
+                android:prompt="@string/category_transaction_label"/>
+
+            <EditText
+                android:id="@+id/et_description"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:hint="@string/desc_transaction_label"
+                android:gravity="top"
+                android:padding="12dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"/>
+
+            <Spinner
+                android:id="@+id/sp_transaction_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:spinnerMode="dropdown"
+                android:prompt="@string/type_transaction_label"/>
+
+            <Spinner
+                android:id="@+id/sp_origin_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:spinnerMode="dropdown"
+                android:prompt="@string/origin_account_label"/>
+
+            <Spinner
+                android:id="@+id/sp_destination_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:padding="12dp"
+                android:spinnerMode="dropdown"
+                android:prompt="@string/dest_account_label"/>
+
+            <Button
+                android:id="@+id/btn_save_transaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/save_transaction_button"
+                android:textColor="@color/white"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                android:padding="12dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

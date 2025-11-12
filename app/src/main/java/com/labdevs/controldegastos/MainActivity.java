@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
         loadFragments();
         setCurrentFragment(fragments.get(0));
         binding.bottomNav.setOnItemSelectedListener(item -> {
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                getSupportFragmentManager().popBackStack();
+            }
             if (item.getItemId() == R.id.item_1) {
                 setCurrentFragment(fragments.get(0));
             }

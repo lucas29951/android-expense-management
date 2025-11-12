@@ -45,9 +45,15 @@ public class ResumeFragment extends Fragment {
 
         viewModel.listarResumeItems(tipoTrans).observe(getViewLifecycleOwner(), items -> resumeAdapter.submitList(items));
 
+        binding.fabAddTransanction.setOnClickListener(view -> loadTransactionFragment());
+
         setupRecycleView();
 
         return binding.getRoot();
+    }
+
+    private void loadTransactionFragment(){
+        getParentFragmentManager().beginTransaction().replace(R.id.fragment_layout,new TransactionFragment()).addToBackStack(null).commit();
     }
 
     private void setTitleList(Integer index) {
@@ -69,10 +75,15 @@ public class ResumeFragment extends Fragment {
             return tiposTransaccion[index--];
     }
 
-
     private void setupRecycleView() {
         resumeAdapter = new ResumeAdapter((MainActivity) getActivity());
         binding.rvExpensesList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvExpensesList.setAdapter(resumeAdapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.setAppBarNavIcon(false);
     }
 }

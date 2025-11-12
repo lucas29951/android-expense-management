@@ -6,101 +6,116 @@
     android:layout_height="match_parent"
     tools:context=".ResumeFragment">
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:padding="8dp">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:padding="8dp">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_total"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardElevation="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <LinearLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_total"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardElevation="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:id="@+id/tv_card_total_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/total_subtitle"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_card_total_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/total_amount"
+                            android:textSize="32sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <com.alanvan.segmented_control.SegmentedControlGroup
+                    android:id="@+id/segmentedButtonsResume"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:layout_margin="@dimen/margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/card_total"
+                    app:singleSelection="true">
 
-                    <TextView
-                        android:id="@+id/tv_card_total_title"
-                        android:layout_width="match_parent"
+                    <com.alanvan.segmented_control.SegmentedControlButton
+                        android:id="@+id/segmentedButtonsResumeButton1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/total_subtitle"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:text="@string/toggle_button_label1" />
 
-                    <TextView
-                        android:id="@+id/tv_card_total_amount"
-                        android:layout_width="match_parent"
+                    <com.alanvan.segmented_control.SegmentedControlButton
+                        android:id="@+id/segmentedButtonsResumeButton2"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="@string/total_amount"
-                        android:textSize="32sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                        android:text="@string/toggle_button_label2" />
 
-            <com.alanvan.segmented_control.SegmentedControlGroup
-                android:id="@+id/segmentedButtonsResume"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin"
-                app:layout_constraintTop_toBottomOf="@id/card_total"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:singleSelection="true">
+                </com.alanvan.segmented_control.SegmentedControlGroup>
 
-                <com.alanvan.segmented_control.SegmentedControlButton
-                    android:id="@+id/segmentedButtonsResumeButton1"
+                <TextView
+                    android:id="@+id/tv_recent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="16dp"
+                    android:paddingTop="8dp"
+                    android:text="@string/income_section_title"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/segmentedButtonsResume" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_expenses_list"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/toggle_button_label1" />
-
-                <com.alanvan.segmented_control.SegmentedControlButton
-                    android:id="@+id/segmentedButtonsResumeButton2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/toggle_button_label2" />
-
-            </com.alanvan.segmented_control.SegmentedControlGroup>
-
-            <TextView
-                android:id="@+id/tv_recent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="16dp"
-                android:paddingTop="8dp"
-                android:text="@string/income_section_title"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/segmentedButtonsResume"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_expenses_list"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:layout_marginHorizontal="8dp"
-                app:layout_constraintTop_toBottomOf="@id/tv_recent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:listitem="@layout/list_item_resume" />
+                    android:layout_marginHorizontal="8dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_recent"
+                    tools:listitem="@layout/list_item_resume" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add_transanction"
+            style="?attr/floatingActionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            app:srcCompat="@drawable/add_24px" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </FrameLayout>

@@ -6,10 +6,12 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.labdevs.controldegastos.data.entity.Categoria;
 import com.labdevs.controldegastos.data.entity.Cuenta;
 import com.labdevs.controldegastos.data.entity.Transaccion;
 import com.labdevs.controldegastos.data.model.ItemInforme;
 import com.labdevs.controldegastos.data.model.ItemResume;
+import com.labdevs.controldegastos.data.repositories.CategoriaRepository;
 import com.labdevs.controldegastos.data.repositories.CuentaRepository;
 import com.labdevs.controldegastos.data.repositories.TransaccionRepository;
 
@@ -20,6 +22,7 @@ public class AppViewModel extends AndroidViewModel {
 
     private final MutableLiveData<LocalDate> filtroFecha = new MutableLiveData<>();
     private final TransaccionRepository transaccionRepo;
+    private final CategoriaRepository categoriaRepo;
     private MutableLiveData<ErrorET> error = new MutableLiveData<>();
     private final LiveData<List<Cuenta>> allCuentas;
     private CuentaRepository cuentaRepo;
@@ -35,6 +38,7 @@ public class AppViewModel extends AndroidViewModel {
         super(application);
         transaccionRepo = new TransaccionRepository(application);
         cuentaRepo = new CuentaRepository(application);
+        categoriaRepo = new CategoriaRepository(application);
         allCuentas = cuentaRepo.listarCuentas();
         // el boton de alta tiene primero la funcionalidad de alta
         modificarCuenta = false;
@@ -101,10 +105,6 @@ public class AppViewModel extends AndroidViewModel {
         return cuentaRepo.buscarPor(id);
     }
 
-    public LiveData<List<ItemResume>> listarResumeItems(String tipoTrans){
-        return transaccionRepo.listarItemsResume(tipoTrans);
-    }
-
     public void insertar(int id, String nombre, String saldo, String tipo) {
         cuentaValida = false;
         if (nombre.isEmpty()) {
@@ -147,10 +147,6 @@ public class AppViewModel extends AndroidViewModel {
         this.hasExecutedOnce = hasExecutedOnce;
     }
 
-    public double sumarSaldoCuentas(){
-        return cuentaRepo.sumarSaldoCuentas();
-    }
-
     // --- Vista Informe ---
     public void insertar(Transaccion transaccion) {
         transaccionRepo.insertar(transaccion);
@@ -173,6 +169,20 @@ public class AppViewModel extends AndroidViewModel {
     }
 
     public record ErrorET(String message, int etId) {
+    }
+
+    // --- Vista Resumen ---
+
+    public LiveData<List<ItemResume>> listarResumeItems(String tipoTrans){
+        return transaccionRepo.listarItemsResume(tipoTrans);
+    }
+
+    public double sumarSaldoCuentas(){
+        return cuentaRepo.sumarSaldoCuentas();
+    }
+
+    public List<Categoria> listarCategorias(){
+        return categoriaRepo.listarCategorias();
     }
 
 }

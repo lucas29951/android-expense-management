@@ -2,4 +2,5 @@
     <dimen name="margin">16dp</dimen>
     <dimen name="margin_titulo_principal">32dp</dimen>
     <dimen name="margin_componentes_grafico">5dp</dimen>
+    <dimen name="padding_spinner_account">8dp</dimen>
 </resources>

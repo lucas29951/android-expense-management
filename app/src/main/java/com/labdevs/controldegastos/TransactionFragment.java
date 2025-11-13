@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.labdevs.controldegastos.adapters.CategoriaSpinnerAdapter;
@@ -50,17 +51,17 @@ public class TransactionFragment extends Fragment {
     }
 
     private void setupCuentaDestinoSpinnerAdapter(List<Cuenta> listaCuentas) {
-        cuentaDestinoAdapter = new CuentaSpinnerAdapter(requireContext(),listaCuentas);
+        cuentaDestinoAdapter = new CuentaSpinnerAdapter(requireContext(), listaCuentas);
     }
 
     private void setupCuentaOrigenSpinnerAdapter(List<Cuenta> listaCuentas) {
-        cuentaOrigenAdapter = new CuentaSpinnerAdapter(requireContext(),listaCuentas);
+        cuentaOrigenAdapter = new CuentaSpinnerAdapter(requireContext(), listaCuentas);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentTransactionBinding.inflate(inflater,container,false);
+        binding = FragmentTransactionBinding.inflate(inflater, container, false);
 
         viewModel.setAppBarTitle(getString(R.string.transaction_title));
         viewModel.setAppBarNavIcon(true);
@@ -70,7 +71,33 @@ public class TransactionFragment extends Fragment {
         binding.spOriginAccount.setAdapter(cuentaOrigenAdapter);
         binding.spDestinationAccount.setAdapter(cuentaDestinoAdapter);
 
+        setupSpinnersListeners();
+
         return binding.getRoot();
+    }
+
+    public enum tipoTransaccion {
+        GASTO, INGRESO, TRANSFERENCIA;
+    }
+
+    private void setupSpinnersListeners() {
+        binding.spTransactionType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == tipoTransaccion.TRANSFERENCIA.ordinal()) {
+                    binding.spDestinationAccount.setVisibility(View.VISIBLE);
+                } else {
+                    if (binding.spDestinationAccount.getVisibility() == View.VISIBLE) {
+                        binding.spDestinationAccount.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                return;
+            }
+        });
     }
 
 }

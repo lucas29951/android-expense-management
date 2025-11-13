@@ -71,7 +71,8 @@
                 android:layout_marginTop="16dp"
                 android:padding="12dp"
                 android:spinnerMode="dropdown"
-                android:prompt="@string/dest_account_label"/>
+                android:prompt="@string/dest_account_label"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/btn_save_transaction"

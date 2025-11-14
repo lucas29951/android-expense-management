@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.labdevs.controldegastos.data.entity.Categoria;
 
 import java.util.ArrayList;
@@ -51,6 +52,16 @@ public class CategoriasFragment extends Fragment {
         });
 
         return vista;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        MaterialToolbar toolbar = requireActivity().findViewById(R.id.topAppBar);
+        toolbar.setNavigationIcon(null);
+        toolbar.getMenu().clear();
+        toolbar.setTitle(R.string.categiria_title);
     }
 
     public void categoriaClickListener(Categoria categoria) {

@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.labdevs.controldegastos.data.database.AppDatabase;
 import com.labdevs.controldegastos.data.entity.Categoria;
 
@@ -28,8 +29,6 @@ public class CategoriasABMFragment extends Fragment {
     private CategoriasABMAdaptador adaptador;
     private RecyclerView recyclerView;
 
-    private ImageButton btn_Atras;
-    private ImageButton btn_Borrar;
     private Button btn_Agregar_Modificar;
 
     private EditText nombreCat;
@@ -58,13 +57,6 @@ public class CategoriasABMFragment extends Fragment {
         viewModel = new ViewModelProvider(requireActivity()).get(CategoriaViewModel.class);
         AppDatabase db = AppDatabase.obtenerInstancia(getContext());
 
-        // botones
-        btn_Atras = vista.findViewById(R.id.btn_atras);
-        btn_Atras.setOnClickListener(v -> volverACategorias());
-
-        btn_Borrar = vista.findViewById(R.id.btn_borrar);
-        btn_Borrar.setOnClickListener(v -> eliminarCategoria());
-
         btn_Agregar_Modificar = vista.findViewById(R.id.btn_agregar_modificar);
         btn_Agregar_Modificar.setOnClickListener(v -> validarYVerificar());
 
@@ -74,6 +66,25 @@ public class CategoriasABMFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Toolbar
+        MaterialToolbar toolbar = requireActivity().findViewById(R.id.topAppBar);
+
+        // cambia los elementos
+        toolbar.setTitle(R.string.categiria_title);     // titulo
+
+        toolbar.setNavigationIcon(R.drawable.arrow_back_24px);  // atras
+        toolbar.setNavigationOnClickListener(v -> volverACategorias());
+
+        toolbar.getMenu().clear();                         // limpia los elementos de menú
+        toolbar.inflateMenu(R.menu.menu_abm_categoria);    // borrar
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_delete) {
+                eliminarCategoria();
+                return true;
+            }
+            return false;
+        });
 
         viewModel.getCategoriaSeleccionada().observe(getViewLifecycleOwner(), c -> {
             if (viewModel.isCategoriaExistente()) {
@@ -101,6 +112,14 @@ public class CategoriasABMFragment extends Fragment {
                 }
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        MaterialToolbar toolbar = requireActivity().findViewById(R.id.topAppBar);
+        toolbar.setNavigationIcon(null);
+        toolbar.getMenu().clear();
     }
 
     private List<String> getNombresRecursos() {

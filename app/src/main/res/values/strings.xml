@@ -185,6 +185,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="date_input_hint">Seleccione una Fecha</string>
+    <string name="time_input_hint">Selecione la Hora</string>
 
     <string-array name="transaction_type_array">
         <item>Gasto</item>

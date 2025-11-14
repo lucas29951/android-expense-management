@@ -18,6 +18,8 @@ import com.labdevs.controldegastos.adapters.CuentaSpinnerAdapter;
 import com.labdevs.controldegastos.data.entity.Cuenta;
 import com.labdevs.controldegastos.databinding.FragmentTransactionBinding;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,6 +33,10 @@ public class TransactionFragment extends Fragment {
     private CuentaSpinnerAdapter cuentaOrigenAdapter;
     private CuentaSpinnerAdapter cuentaDestinoAdapter;
     private List<Cuenta> listaCuentas;
+    public final String EDITTEXT_DATE_FORMAT = "dd/MM/yyyy";
+    public final String EDITTEXT_TIME_FORMAT = "HH:mm";
+    private String editTextDate;
+    private String editTextTime;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +53,13 @@ public class TransactionFragment extends Fragment {
         mapCuentasNombresDuplicados = mapCuentasNombresDuplicados.entrySet().stream().filter(entry -> entry.getValue().size() > 1).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         setupCuentaOrigenSpinnerAdapter(listaCuentas, mapCuentasNombresDuplicados);
         setupCuentaDestinoSpinnerAdapter(listaCuentas, mapCuentasNombresDuplicados);
+    }
+
+    private void initializeDefaultTransactionDate() {
+        // TODO: asignar a date de cuenta
+        LocalDateTime defaultDate = LocalDateTime.now();
+        editTextDate = defaultDate.format(DateTimeFormatter.ofPattern(EDITTEXT_DATE_FORMAT));
+        editTextTime = defaultDate.format(DateTimeFormatter.ofPattern(EDITTEXT_TIME_FORMAT));
     }
 
     private void setupCategoriaSpinnerAdapter() {
@@ -71,6 +84,12 @@ public class TransactionFragment extends Fragment {
 
         viewModel.setAppBarTitle(getString(R.string.transaction_title));
         viewModel.setAppBarNavIcon(true);
+
+        initializeDefaultTransactionDate();
+
+        // fecha por default
+        binding.dateEditText.setText(editTextDate);
+        binding.timeEditText.setText(editTextTime);
 
         binding.spCategory.setAdapter(categoriasAdapter);
         binding.spTransactionType.setAdapter(tipoTransaccionesAdapter);

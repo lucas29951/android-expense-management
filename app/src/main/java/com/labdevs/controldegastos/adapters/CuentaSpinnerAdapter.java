@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CuentaSpinnerAdapter extends BaseAdapter {
 
-    private final List<Cuenta> listaCuentas;
+    private List<Cuenta> listaCuentas;
     private LayoutInflater lInflater;
 
     public CuentaSpinnerAdapter(Context context, List<Cuenta> listaCuentas) {
@@ -46,4 +46,10 @@ public class CuentaSpinnerAdapter extends BaseAdapter {
 
         return binding.getRoot();
     }
+
+    public void updateList(List<Cuenta> listaCuentas){
+        this.listaCuentas = listaCuentas;
+        notifyDataSetChanged();
+    }
+
 }

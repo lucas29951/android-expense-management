@@ -28,6 +28,7 @@ public class TransactionFragment extends Fragment {
     private ArrayAdapter<CharSequence> tipoTransaccionesAdapter;
     private CuentaSpinnerAdapter cuentaOrigenAdapter;
     private CuentaSpinnerAdapter cuentaDestinoAdapter;
+    private List<Cuenta> listaCuentas;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class TransactionFragment extends Fragment {
 
         setupCategoriaSpinnerAdapter();
 
-        List<Cuenta> listaCuentas = viewModel.getListaCuentas();
+        listaCuentas = viewModel.getListaCuentas();
         setupCuentaOrigenSpinnerAdapter(listaCuentas);
         setupCuentaDestinoSpinnerAdapter(listaCuentas);
     }
@@ -98,6 +99,18 @@ public class TransactionFragment extends Fragment {
                 return;
             }
         });
+
+        binding.spOriginAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    cuentaDestinoAdapter.updateList(listaCuentas.stream().filter(cuenta -> cuenta.id!=id).toList());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
     }
 
 }

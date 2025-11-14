@@ -19,6 +19,8 @@ import com.labdevs.controldegastos.data.entity.Cuenta;
 import com.labdevs.controldegastos.databinding.FragmentTransactionBinding;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TransactionFragment extends Fragment {
 
@@ -40,8 +42,11 @@ public class TransactionFragment extends Fragment {
         setupCategoriaSpinnerAdapter();
 
         listaCuentas = viewModel.getListaCuentas();
-        setupCuentaOrigenSpinnerAdapter(listaCuentas);
-        setupCuentaDestinoSpinnerAdapter(listaCuentas);
+        Map<String, List<Cuenta>> mapCuentasNombresDuplicados = listaCuentas.stream().collect(Collectors.groupingBy(cuenta -> cuenta.nombre));
+        // dame un map que tenga cuentas (List<Cuenta>>) duplicadas (> 1)
+        mapCuentasNombresDuplicados = mapCuentasNombresDuplicados.entrySet().stream().filter(entry -> entry.getValue().size() > 1).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        setupCuentaOrigenSpinnerAdapter(listaCuentas, mapCuentasNombresDuplicados);
+        setupCuentaDestinoSpinnerAdapter(listaCuentas, mapCuentasNombresDuplicados);
     }
 
     private void setupCategoriaSpinnerAdapter() {
@@ -51,12 +56,12 @@ public class TransactionFragment extends Fragment {
         tipoTransaccionesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
 
-    private void setupCuentaDestinoSpinnerAdapter(List<Cuenta> listaCuentas) {
-        cuentaDestinoAdapter = new CuentaSpinnerAdapter(requireContext(), listaCuentas);
+    private void setupCuentaDestinoSpinnerAdapter(List<Cuenta> listaCuentas, Map<String, List<Cuenta>> mapCuentasNombresDuplicados) {
+        cuentaDestinoAdapter = new CuentaSpinnerAdapter(requireContext(), listaCuentas, mapCuentasNombresDuplicados);
     }
 
-    private void setupCuentaOrigenSpinnerAdapter(List<Cuenta> listaCuentas) {
-        cuentaOrigenAdapter = new CuentaSpinnerAdapter(requireContext(), listaCuentas);
+    private void setupCuentaOrigenSpinnerAdapter(List<Cuenta> listaCuentas, Map<String, List<Cuenta>> mapCuentasNombresDuplicados) {
+        cuentaOrigenAdapter = new CuentaSpinnerAdapter(requireContext(), listaCuentas, mapCuentasNombresDuplicados);
     }
 
     @Override
@@ -103,7 +108,7 @@ public class TransactionFragment extends Fragment {
         binding.spOriginAccount.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    cuentaDestinoAdapter.updateList(listaCuentas.stream().filter(cuenta -> cuenta.id!=id).toList());
+                cuentaDestinoAdapter.updateList(listaCuentas.stream().filter(cuenta -> cuenta.id != id).toList());
             }
 
             @Override

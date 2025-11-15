@@ -56,6 +56,26 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
+                <FrameLayout
+                    android:id="@+id/resume_filters_fragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin"
+                    app:layout_constraintBottom_toTopOf="@+id/segmentedButtonsResume"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/card_total" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/filter_type_button"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/default_label_periodo"
+                    app:icon="@drawable/today_24px"
+                    android:layout_marginEnd="@dimen/margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/card_total" />
+
                 <com.alanvan.segmented_control.SegmentedControlGroup
                     android:id="@+id/segmentedButtonsResume"
                     android:layout_width="match_parent"
@@ -63,7 +83,7 @@
                     android:layout_margin="@dimen/margin"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/card_total"
+                    app:layout_constraintTop_toBottomOf="@+id/filter_type_button"
                     app:singleSelection="true">
 
                     <com.alanvan.segmented_control.SegmentedControlButton

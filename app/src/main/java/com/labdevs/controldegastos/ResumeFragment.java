@@ -10,8 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
+import com.labdevs.controldegastos.data.repositories.TransaccionRepository;
 import com.labdevs.controldegastos.databinding.FragmentResumeBinding;
+
+import java.time.LocalDate;
 
 public class ResumeFragment extends Fragment {
 
@@ -20,12 +24,19 @@ public class ResumeFragment extends Fragment {
     private ResumeAdapter resumeAdapter;
     private String tipoTrans;
     private final String[] tiposTransaccion = {"ingreso","gasto"};
+    private FiltroGeneralFragment filtroGen;
+    private LocalDate fecha;
+    private TransaccionRepository.FiltrosTransacciones filtrosTransaccion;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
         tipoTrans = "ingreso";
+        // TODO: fecha para testing, cambiar a now()
+        fecha = LocalDate.of(2025, 8, 1);
+        filtroGen = new FiltroGeneralFragment(fecha, FiltroGeneralFragment.TipoFiltroGen.MENSUAL);
+        filtrosTransaccion = new TransaccionRepository.FiltrosTransacciones(-1,tipoTrans, TransaccionRepository.FiltrosTransacciones.TipoFiltroFecha.MES,fecha);
     }
 
     @Override
@@ -36,10 +47,15 @@ public class ResumeFragment extends Fragment {
         viewModel.setAppBarTitle(getString(R.string.resume_title));
 
         binding.segmentedButtonsResume.setOnSelectedOptionChangeCallback(index -> {
-            viewModel.listarResumeItems(getIndex(index)).observe(getViewLifecycleOwner(), items -> resumeAdapter.submitList(items));
+            chageTransactionType(index);
+            setListResumeItemsObserver();
             setTitleList(index);
             return null;
         });
+
+        loadFiltroGenFragment();
+
+        binding.filterTypeButton.setOnClickListener(button -> showMenuFilters(button, R.menu.menu_boton_informe));
 
         binding.tvCardTotalAmount.setText("$ "+String.format(CuentaAdapter.saldoFormat,viewModel.sumarSaldoCuentas()));
 
@@ -50,6 +66,14 @@ public class ResumeFragment extends Fragment {
         setupRecycleView();
 
         return binding.getRoot();
+    }
+
+    private void chageTransactionType(Integer index) {
+        filtrosTransaccion.setFiltroTipoTrans(getIndex(index));
+    }
+
+    private void setListResumeItemsObserver(){
+        viewModel.listarResumeItems(tipoTrans).observe(getViewLifecycleOwner(), items -> resumeAdapter.submitList(items));
     }
 
     private void loadTransactionFragment(){
@@ -80,6 +104,56 @@ public class ResumeFragment extends Fragment {
         binding.rvExpensesList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvExpensesList.setAdapter(resumeAdapter);
     }
+
+    private void showMenuFilters(View button, int menuRes) {
+        PopupMenu popup = new PopupMenu(getActivity(), button);
+        popup.getMenuInflater().inflate(menuRes, popup.getMenu());
+
+        popup.setOnMenuItemClickListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.menu_informe_opcion_1) {
+                filtrosTransaccion.setTipoFiltroFecha(TransaccionRepository.FiltrosTransacciones.TipoFiltroFecha.PERIODO);
+                setListResumeItemsObserver();
+
+                changeMainButtonText("Semanal");
+                loadFiltroGenFragment(FiltroGeneralFragment.TipoFiltroGen.SEMANAL);
+                return true;
+            } else if (itemId == R.id.menu_informe_opcion_2) {
+                filtrosTransaccion.setTipoFiltroFecha(TransaccionRepository.FiltrosTransacciones.TipoFiltroFecha.MES);
+                setListResumeItemsObserver();
+
+                changeMainButtonText("Mensual");
+                loadFiltroGenFragment(FiltroGeneralFragment.TipoFiltroGen.MENSUAL);
+                return true;
+            } else if (itemId == R.id.menu_informe_opcion_3) {
+                filtrosTransaccion.setTipoFiltroFecha(TransaccionRepository.FiltrosTransacciones.TipoFiltroFecha.ANIO);
+                setListResumeItemsObserver();
+
+                changeMainButtonText("Anual");
+                loadFiltroGenFragment(FiltroGeneralFragment.TipoFiltroGen.ANUAL);
+                return true;
+            } else if (itemId == R.id.menu_informe_opcion_4) {
+                return true;
+            }
+            return false;
+        });
+
+        popup.show();
+    }
+
+    private void changeMainButtonText(String str) {
+        binding.filterTypeButton.setText(str);
+    }
+
+    private void loadFiltroGenFragment(FiltroGeneralFragment.TipoFiltroGen tipoFiltroGen) {
+        filtroGen = new FiltroGeneralFragment(fecha, tipoFiltroGen);
+        loadFiltroGenFragment();
+    }
+
+    private void loadFiltroGenFragment() {
+        getChildFragmentManager().beginTransaction().replace(R.id.resume_filters_fragment, filtroGen).commit();
+    }
+
 
     @Override
     public void onResume() {

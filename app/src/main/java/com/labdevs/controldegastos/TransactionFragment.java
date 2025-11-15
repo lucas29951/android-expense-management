@@ -13,15 +13,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.timepicker.MaterialTimePicker;
 import com.labdevs.controldegastos.adapters.CategoriaSpinnerAdapter;
 import com.labdevs.controldegastos.adapters.CuentaSpinnerAdapter;
 import com.labdevs.controldegastos.data.entity.Cuenta;
 import com.labdevs.controldegastos.databinding.FragmentTransactionBinding;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 public class TransactionFragment extends Fragment {
@@ -91,6 +96,9 @@ public class TransactionFragment extends Fragment {
         binding.dateEditText.setText(editTextDate);
         binding.timeEditText.setText(editTextTime);
 
+        binding.dateEditText.setOnClickListener(view -> loadDatePicker());
+        binding.timeEditText.setOnClickListener(view -> loadTimePicker());
+
         binding.spCategory.setAdapter(categoriasAdapter);
         binding.spTransactionType.setAdapter(tipoTransaccionesAdapter);
         binding.spOriginAccount.setAdapter(cuentaOrigenAdapter);
@@ -99,6 +107,26 @@ public class TransactionFragment extends Fragment {
         setupSpinnersListeners();
 
         return binding.getRoot();
+    }
+
+    private void loadTimePicker() {
+        MaterialTimePicker timePicker = new MaterialTimePicker.Builder().setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK).build();
+        timePicker.addOnPositiveButtonClickListener(view -> {
+            // TODO: asignar a date de cuenta
+            LocalTime time = LocalTime.of(timePicker.getHour(), timePicker.getMinute());
+            binding.timeEditText.setText(time.format(DateTimeFormatter.ofPattern(EDITTEXT_TIME_FORMAT)));
+        });
+        timePicker.show(getParentFragmentManager(),"TimePickerTransaction");
+    }
+
+    private void loadDatePicker() {
+        MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker().setSelection(MaterialDatePicker.todayInUtcMilliseconds()).build();
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+            // TODO: asignar a date de cuenta
+            String date = Instant.ofEpochMilli(selection).atZone(TimeZone.getTimeZone("UTC").toZoneId()).toLocalDate().format(DateTimeFormatter.ofPattern(EDITTEXT_DATE_FORMAT));
+            binding.dateEditText.setText(date);
+        });
+        datePicker.show(getParentFragmentManager(),"DatePickerTransaction");
     }
 
     public enum tipoTransaccion {

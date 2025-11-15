@@ -31,23 +31,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/toggle_button_label2" />
 
-            <!--            <com.google.android.material.button.MaterialButton-->
-            <!--                android:id="@+id/toggleButton1"-->
-            <!--                style="?attr/materialButtonOutlinedStyle"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_weight="1"-->
-            <!--                android:insetLeft="@dimen/margin"-->
-            <!--                android:text="@string/toggle_button_label1" />-->
-
-            <!--            <com.google.android.material.button.MaterialButton-->
-            <!--                android:id="@+id/toggleButton2"-->
-            <!--                style="?attr/materialButtonOutlinedStyle"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_weight="1"-->
-            <!--                android:insetRight="@dimen/margin"-->
-            <!--                android:text="@string/toggle_button_label2" />-->
         </com.alanvan.segmented_control.SegmentedControlGroup>
 
         <FrameLayout

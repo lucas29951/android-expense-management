@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadFragments() {
         fragments.add(new ResumeFragment());
         fragments.add(new AccountsFragment());
-        fragments.add(new BlankFragment());
+        fragments.add(new CategoriasFragment());
         fragments.add(new InformeFragment());
         fragments.add(new SettingsFragment());
     }

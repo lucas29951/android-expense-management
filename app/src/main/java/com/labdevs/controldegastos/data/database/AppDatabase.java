@@ -1,11 +1,13 @@
 package com.labdevs.controldegastos.data.database;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+
 import android.content.Context;
-import android.content.res.AssetManager;
 
 import com.labdevs.controldegastos.data.entity.Categoria;
 import com.labdevs.controldegastos.data.entity.Cuenta;
@@ -36,7 +38,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract CuentaDAO CuentaDAO();
     public abstract GastoRecurrenteDAO GastoRecurrenteDAO();
     public abstract TransaccionDAO TransaccionDAO();
-
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
@@ -48,11 +49,24 @@ public abstract class AppDatabase extends RoomDatabase {
         if (INSTANCIA == null) {
             synchronized (AppDatabase.class) {
                 if (INSTANCIA == null) {
-                    INSTANCIA = Room.databaseBuilder(
-                                    context.getApplicationContext(),
-                                    AppDatabase.class,
-                                    "control_gastos.db"
-                            ).allowMainThreadQueries().createFromAsset("app.db")
+                    INSTANCIA = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "control_gastos.db")
+                            .addCallback(new RoomDatabase.Callback() {
+                                @Override
+                                public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                                    Executors.newSingleThreadExecutor().execute(() -> {
+                                        AppDatabase database = obtenerInstancia(context);
+                                        CategoriaDAO catDAO = database.CategoriaDAO();
+
+                                        // categorias por defecto
+                                        catDAO.insertar(new Categoria("Comida", "cat_ico_comida", true));
+                                        catDAO.insertar(new Categoria("Entretenimiento", "cat_ico_entretenimiento", true));
+                                        catDAO.insertar(new Categoria("Salario", "cat_ico_salario", true));
+                                        catDAO.insertar(new Categoria("Shopping", "cat_ico_shopping", true));
+                                        catDAO.insertar(new Categoria("Transporte", "cat_ico_transporte", true));
+                                        catDAO.insertar(new Categoria("Viaje", "cat_ico_viajes", true));
+                                    });
+                                }
+                            })
                             .build();
                 }
             }

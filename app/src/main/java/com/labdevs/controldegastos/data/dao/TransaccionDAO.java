@@ -3,6 +3,7 @@ package com.labdevs.controldegastos.data.dao;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Delete;
 import androidx.room.Update;
@@ -15,11 +16,9 @@ import java.util.List;
 
 @Dao
 public interface TransaccionDAO {
-    @Insert
-    void insertar(Transaccion t);
 
-    @Update
-    void actualizar(Transaccion t);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertOrUpdate(Transaccion transaccion);
 
     @Delete
     void eliminar(Transaccion t);

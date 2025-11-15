@@ -33,8 +33,8 @@ public class TransaccionRepository {
         return transacciones;
     }
 
-    public void insertar(Transaccion transaccion) {
-        transaccionDAO.insertar(transaccion);
+    public void insertarOActualizar(Transaccion transaccion) {
+        AppDatabase.databaseWriteExecutor.execute(() -> transaccionDAO.insertOrUpdate(transaccion));
     }
 
     public void eliminar(Transaccion t) {

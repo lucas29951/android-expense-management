@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.labdevs.controldegastos.data.database.Converters;
 import com.labdevs.controldegastos.data.entity.Categoria;
 import com.labdevs.controldegastos.data.entity.Cuenta;
 import com.labdevs.controldegastos.data.entity.Transaccion;
@@ -149,13 +150,6 @@ public class AppViewModel extends AndroidViewModel {
     }
 
     // --- Vista Informe ---
-    public void insertar(Transaccion transaccion) {
-        transaccionRepo.insertar(transaccion);
-    }
-
-    public void eliminar(Transaccion t) {
-        transaccionRepo.eliminar(t);
-    }
 
     public List<ItemInforme> listarTransacciones(TransaccionRepository.FiltrosTransacciones filtros) {
         return transaccionRepo.listarTransacFiltradasPorFecha(filtros);
@@ -199,6 +193,16 @@ public class AppViewModel extends AndroidViewModel {
             return;
         }
         transaccionValida = true;
+
+        Transaccion transac = new Transaccion(Double.parseDouble(transaccion.monto),
+                Converters.toDate(transaccion.fecha_hora),
+                transaccion.comentario,
+                transaccion.tipo_transaccion,
+                transaccion.id_categoria,
+                transaccion.id_cuenta_origen,
+                transaccion.id_cuenta_destino);
+
+        transaccionRepo.insertarOActualizar(transac);
     }
 
     public boolean isTransaccionValida() {

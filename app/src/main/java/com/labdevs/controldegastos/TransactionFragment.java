@@ -130,7 +130,13 @@ public class TransactionFragment extends Fragment {
         String descripcion = binding.etDescription.getText().toString().trim();
         transaccion.comentario = descripcion.isEmpty() ? "null" : descripcion;
         transaccion.fecha_hora = getFechaHora();
+        // TODO: cambiar por una solucion alternativa
+        // Si no se eligio cuenta destino, se asigna (a la cuenta destino) el id de la cuenta origen
+        // se realiza esto para evitar referenciar una cuenta inexistente en cuenta_destino y evitar asi
+        // "FOREIGN KEY constraint failed (code 787 SQLITE_CONSTRAINT_FOREIGNKEY)"
+        transaccion.id_cuenta_destino = transaccion.id_cuenta_destino == 0 ? transaccion.id_cuenta_origen : transaccion.id_cuenta_destino;
 
+        viewModel.insertarTransaccion(transaccion);
         if (viewModel.isTransaccionValida()){
             getActivity().getOnBackPressedDispatcher().onBackPressed();
         }

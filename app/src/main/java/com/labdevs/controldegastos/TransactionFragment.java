@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +76,6 @@ public class TransactionFragment extends Fragment {
     }
 
     private void initializeDefaultTransactionDate() {
-        // TODO: asignar a date de cuenta
         defaultDate = LocalDateTime.now();
         editTextDate = defaultDate.format(DateTimeFormatter.ofPattern(EDITTEXT_DATE_FORMAT));
         editTextTime = defaultDate.format(DateTimeFormatter.ofPattern(EDITTEXT_TIME_FORMAT));
@@ -132,8 +130,10 @@ public class TransactionFragment extends Fragment {
         String descripcion = binding.etDescription.getText().toString().trim();
         transaccion.comentario = descripcion.isEmpty() ? "null" : descripcion;
         transaccion.fecha_hora = getFechaHora();
-        Log.d("devtest",transaccion.toString());
-        initializedTransactionContainer();
+
+        if (viewModel.isTransaccionValida()){
+            getActivity().getOnBackPressedDispatcher().onBackPressed();
+        }
     }
 
     private String getFechaHora() {
@@ -148,7 +148,6 @@ public class TransactionFragment extends Fragment {
     private void loadTimePicker() {
         MaterialTimePicker timePicker = new MaterialTimePicker.Builder().setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK).build();
         timePicker.addOnPositiveButtonClickListener(view -> {
-            // TODO: asignar a date de cuenta
             localTime = LocalTime.of(timePicker.getHour(), timePicker.getMinute());
             binding.timeEditText.setText(localTime.format(DateTimeFormatter.ofPattern(EDITTEXT_TIME_FORMAT)));
         });
@@ -158,7 +157,6 @@ public class TransactionFragment extends Fragment {
     private void loadDatePicker() {
         MaterialDatePicker<Long> datePicker = MaterialDatePicker.Builder.datePicker().setSelection(MaterialDatePicker.todayInUtcMilliseconds()).build();
         datePicker.addOnPositiveButtonClickListener(selection -> {
-            // TODO: asignar a date de cuenta
             localDate = Instant.ofEpochMilli(selection).atZone(TimeZone.getTimeZone("UTC").toZoneId()).toLocalDate();
             String date = localDate.format(DateTimeFormatter.ofPattern(EDITTEXT_DATE_FORMAT));
             binding.dateEditText.setText(date);

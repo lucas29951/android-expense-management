@@ -24,6 +24,7 @@ public class AppViewModel extends AndroidViewModel {
     private final TransaccionRepository transaccionRepo;
     private final CategoriaRepository categoriaRepo;
     private MutableLiveData<ErrorET> error = new MutableLiveData<>();
+    private boolean transaccionValida;
     private final LiveData<List<Cuenta>> allCuentas;
     private CuentaRepository cuentaRepo;
     private MutableLiveData<Cuenta> cuentaSelecionadaEliminar = new MutableLiveData<>();
@@ -185,4 +186,22 @@ public class AppViewModel extends AndroidViewModel {
         return categoriaRepo.listarCategorias();
     }
 
+    public void insertarTransaccion(TransactionFragment.TransaccionWrapper transaccion){
+        transaccionValida = false;
+        if (transaccion.monto.isEmpty()){
+            error.setValue(new ErrorET("El monto es obligario", R.id.et_amount));
+            return;
+        } else if (!transaccion.monto.matches("\\d+")) {
+            error.setValue(new ErrorET("Monto invalido (no se permite caracteres extaños)", R.id.et_amount));
+            return;
+        } else if (transaccion.monto.length() > 12) {
+            error.setValue(new ErrorET("Rango de monto invalido!", R.id.et_amount));
+            return;
+        }
+        transaccionValida = true;
+    }
+
+    public boolean isTransaccionValida() {
+        return transaccionValida;
+    }
 }

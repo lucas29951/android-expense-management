@@ -172,4 +172,21 @@ public class TransaccionRepository {
     public LiveData<List<ItemResume>> listarItemsResume(String tipoTrans){
         return transaccionDAO.listarItemsResume(tipoTrans);
     }
+
+    public LiveData<List<ItemResume>> listarItemsResume(FiltrosTransacciones filtros) {
+        String filtroTipoTrans = filtros.getFiltroTipoTrans();
+        FiltrosTransacciones.Periodo periodo = filtros.getPeriodo();
+        LiveData<List<ItemResume>> lista = null;
+
+        switch (filtros.getTipoFiltroFecha()) {
+            case PERIODO ->
+                    lista = transaccionDAO.listarItemsResumePorPeriodo(filtroTipoTrans, periodo.getFechaInicio(), periodo.getFechaFin());
+            case MES ->
+                    lista = transaccionDAO.listarItemsResumePorMes(filtroTipoTrans, periodo.getFechaFin());
+            case ANIO ->
+                    lista = transaccionDAO.listarItemsResumePorAnio(filtroTipoTrans, periodo.getFechaFin());
+        }
+
+        return lista;
+    }
 }

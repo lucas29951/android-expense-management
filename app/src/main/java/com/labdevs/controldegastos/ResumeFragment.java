@@ -59,7 +59,9 @@ public class ResumeFragment extends Fragment {
 
         binding.tvCardTotalAmount.setText("$ "+String.format(CuentaAdapter.saldoFormat,viewModel.sumarSaldoCuentas()));
 
-        viewModel.listarResumeItems(tipoTrans).observe(getViewLifecycleOwner(), items -> resumeAdapter.submitList(items));
+        viewModel.listarResumeItems(filtrosTransaccion).observe(getViewLifecycleOwner(), items -> resumeAdapter.submitList(items));
+
+        viewModel.getFiltroFecha().observe(getViewLifecycleOwner(),fecha -> changeTransactionDate(fecha));
 
         binding.fabAddTransanction.setOnClickListener(view -> loadTransactionFragment());
 
@@ -68,12 +70,17 @@ public class ResumeFragment extends Fragment {
         return binding.getRoot();
     }
 
+    private void changeTransactionDate(LocalDate fecha) {
+        filtrosTransaccion.setFecha(fecha);
+        setListResumeItemsObserver();
+    }
+
     private void chageTransactionType(Integer index) {
         filtrosTransaccion.setFiltroTipoTrans(getIndex(index));
     }
 
     private void setListResumeItemsObserver(){
-        viewModel.listarResumeItems(tipoTrans).observe(getViewLifecycleOwner(), items -> resumeAdapter.submitList(items));
+        viewModel.listarResumeItems(filtrosTransaccion).observe(getViewLifecycleOwner(), items -> resumeAdapter.submitList(items));
     }
 
     private void loadTransactionFragment(){
@@ -113,21 +120,18 @@ public class ResumeFragment extends Fragment {
             int itemId = item.getItemId();
             if (itemId == R.id.menu_informe_opcion_1) {
                 filtrosTransaccion.setTipoFiltroFecha(TransaccionRepository.FiltrosTransacciones.TipoFiltroFecha.PERIODO);
-                setListResumeItemsObserver();
 
                 changeMainButtonText("Semanal");
                 loadFiltroGenFragment(FiltroGeneralFragment.TipoFiltroGen.SEMANAL);
                 return true;
             } else if (itemId == R.id.menu_informe_opcion_2) {
                 filtrosTransaccion.setTipoFiltroFecha(TransaccionRepository.FiltrosTransacciones.TipoFiltroFecha.MES);
-                setListResumeItemsObserver();
 
                 changeMainButtonText("Mensual");
                 loadFiltroGenFragment(FiltroGeneralFragment.TipoFiltroGen.MENSUAL);
                 return true;
             } else if (itemId == R.id.menu_informe_opcion_3) {
                 filtrosTransaccion.setTipoFiltroFecha(TransaccionRepository.FiltrosTransacciones.TipoFiltroFecha.ANIO);
-                setListResumeItemsObserver();
 
                 changeMainButtonText("Anual");
                 loadFiltroGenFragment(FiltroGeneralFragment.TipoFiltroGen.ANUAL);

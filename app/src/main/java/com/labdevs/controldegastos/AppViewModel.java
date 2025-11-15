@@ -172,6 +172,10 @@ public class AppViewModel extends AndroidViewModel {
         return transaccionRepo.listarItemsResume(tipoTrans);
     }
 
+    public LiveData<List<ItemResume>> listarResumeItems(TransaccionRepository.FiltrosTransacciones filtro){
+        return transaccionRepo.listarItemsResume(filtro);
+    }
+
     public double sumarSaldoCuentas(){
         return cuentaRepo.sumarSaldoCuentas();
     }

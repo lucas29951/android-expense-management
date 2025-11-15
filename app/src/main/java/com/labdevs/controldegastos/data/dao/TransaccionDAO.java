@@ -40,4 +40,13 @@ public interface TransaccionDAO {
 
     @Query("SELECT t.id, t.tipo_transaccion, t.monto, t.fecha_hora, c.nombre, c.icono FROM transacciones AS t JOIN categorias AS c ON t.id_categoria = c.id WHERE t.tipo_transaccion LIKE :tipoTrans")
     LiveData<List<ItemResume>> listarItemsResume(String tipoTrans);
+
+    @Query("SELECT t.id, t.tipo_transaccion, t.monto, t.fecha_hora, c.nombre, c.icono FROM transacciones AS t JOIN categorias AS c ON t.id_categoria = c.id WHERE t.tipo_transaccion LIKE :tipoTrans AND date(t.fecha_hora) BETWEEN :fechaDesde AND :fechaHasta ORDER BY t.fecha_hora ASC")
+    LiveData<List<ItemResume>> listarItemsResumePorPeriodo(String tipoTrans, String fechaDesde, String fechaHasta);
+
+    @Query("SELECT t.id, t.tipo_transaccion, t.monto, t.fecha_hora, c.nombre, c.icono FROM transacciones AS t JOIN categorias AS c ON t.id_categoria = c.id WHERE t.tipo_transaccion LIKE :tipoTrans AND strftime('%m',t.fecha_hora) = :mes ORDER BY t.fecha_hora ASC")
+    LiveData<List<ItemResume>> listarItemsResumePorMes(String tipoTrans, String mes);
+
+    @Query("SELECT t.id, t.tipo_transaccion, t.monto, t.fecha_hora, c.nombre, c.icono FROM transacciones AS t JOIN categorias AS c ON t.id_categoria = c.id WHERE t.tipo_transaccion LIKE :tipoTrans AND strftime('%Y',t.fecha_hora) = :year ORDER BY t.fecha_hora ASC")
+    LiveData<List<ItemResume>> listarItemsResumePorAnio(String tipoTrans, String year);
 }

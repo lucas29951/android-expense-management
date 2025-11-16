@@ -34,6 +34,7 @@ public class AppViewModel extends AndroidViewModel {
     private MutableLiveData<Cuenta> cuentaSelecionada = new MutableLiveData<>();
     private boolean modificarCuenta;
     private boolean cuentaValida;
+    private final LiveData<Double> saldoCuentas;
     private boolean hasExecutedOnce;
     private MutableLiveData<String> appBarTitle = new MutableLiveData<>();
     private MutableLiveData<Boolean> appBarNavIcon = new MutableLiveData<>();
@@ -46,6 +47,7 @@ public class AppViewModel extends AndroidViewModel {
         allCuentas = cuentaRepo.listarCuentas();
         // el boton de alta tiene primero la funcionalidad de alta
         modificarCuenta = false;
+        saldoCuentas = cuentaRepo.sumarSaldoCuentas();
     }
 
     // --- Error ---
@@ -174,37 +176,53 @@ public class AppViewModel extends AndroidViewModel {
         return transaccionRepo.listarItemsResume(filtro);
     }
 
-    public double sumarSaldoCuentas(){
-        return cuentaRepo.sumarSaldoCuentas();
+    public LiveData<Double> getSaldoCuentas(){
+        return saldoCuentas;
     }
 
     public List<Categoria> listarCategorias(){
         return categoriaRepo.listarCategoriasList();
     }
 
-    public void insertarTransaccion(TransactionFragment.TransaccionWrapper transaccion){
+    public void insertarTransaccion(TransactionFragment.TransaccionWrapper transaccionWrapper){
         transaccionValida = false;
-        if (transaccion.monto.isEmpty()){
+        if (transaccionWrapper.monto.isEmpty()){
             error.setValue(new ErrorET("El monto es obligario", R.id.et_amount));
             return;
-        } else if (!transaccion.monto.matches("\\d+")) {
+        } else if (!transaccionWrapper.monto.matches("\\d+")) {
             error.setValue(new ErrorET("Monto invalido (no se permite caracteres extaños)", R.id.et_amount));
             return;
-        } else if (transaccion.monto.length() > 12) {
+        } else if (transaccionWrapper.monto.length() > 12) {
             error.setValue(new ErrorET("Rango de monto invalido!", R.id.et_amount));
             return;
         }
         transaccionValida = true;
 
-        Transaccion transac = new Transaccion(Double.parseDouble(transaccion.monto),
-                Converters.toDate(transaccion.fecha_hora),
-                transaccion.comentario,
-                transaccion.tipo_transaccion,
-                transaccion.id_categoria,
-                transaccion.id_cuenta_origen,
-                transaccion.id_cuenta_destino);
+        Transaccion transaccion = new Transaccion(Double.parseDouble(transaccionWrapper.monto),
+                Converters.toDate(transaccionWrapper.fecha_hora),
+                transaccionWrapper.comentario,
+                transaccionWrapper.tipo_transaccion,
+                transaccionWrapper.id_categoria,
+                transaccionWrapper.id_cuenta_origen,
+                transaccionWrapper.id_cuenta_destino);
 
-        transaccionRepo.insertarOActualizar(transac);
+        actulizarSaldoCuenta(transaccion);
+        transaccionRepo.insertarOActualizar(transaccion);
+    }
+
+    private void actulizarSaldoCuenta(Transaccion transaccion) {
+        Cuenta cuenta = cuentaRepo.buscarPor(transaccion.id_cuenta_origen);
+        if (transaccion.tipo_transaccion.equals(getString(GASTO.ordinal()))){
+            cuenta.saldo -= transaccion.monto;
+        } else if (transaccion.tipo_transaccion.equals(getString(INGRESO.ordinal()))) {
+            cuenta.saldo += transaccion.monto;
+        } else { //TRANSFERENCIA
+            cuenta = cuentaRepo.buscarPor(transaccion.id_cuenta_destino);
+            cuenta.saldo += transaccion.monto;
+            cuentaRepo.actualizar(cuenta);
+            return;
+        }
+        cuentaRepo.actualizar(cuenta);
     }
 
     public boolean isTransaccionValida() {

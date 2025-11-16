@@ -23,6 +23,10 @@ public class CuentaRepository {
         AppDatabase.databaseWriteExecutor.execute(() -> cuentaDAO.insertOrUpdate(cuenta));
     }
 
+    public void actualizar(Cuenta cuenta){
+        AppDatabase.databaseWriteExecutor.execute(() -> cuentaDAO.update(cuenta));
+    }
+
     public void elimiar(Cuenta cuenta) {
         AppDatabase.databaseWriteExecutor.execute(() -> cuentaDAO.delete(cuenta));
     }
@@ -43,7 +47,7 @@ public class CuentaRepository {
         return cuentaDAO.buscarPorId(id);
     }
 
-    public double sumarSaldoCuentas(){
+    public LiveData<Double> sumarSaldoCuentas(){
         return cuentaDAO.sumPorSaldo();
     }
 }

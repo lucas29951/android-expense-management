@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -57,7 +58,7 @@ public class ResumeFragment extends Fragment {
 
         binding.filterTypeButton.setOnClickListener(button -> showMenuFilters(button, R.menu.menu_boton_informe));
 
-        binding.tvCardTotalAmount.setText("$ "+String.format(CuentaAdapter.saldoFormat,viewModel.sumarSaldoCuentas()));
+        viewModel.getSaldoCuentas().observe(getViewLifecycleOwner(), this::setTotalCardTitle);
 
         viewModel.listarResumeItems(filtrosTransaccion).observe(getViewLifecycleOwner(), items -> resumeAdapter.submitList(items));
 
@@ -68,6 +69,10 @@ public class ResumeFragment extends Fragment {
         setupRecycleView();
 
         return binding.getRoot();
+    }
+
+    private void setTotalCardTitle(Double saldo) {
+        binding.tvCardTotalAmount.setText("$ "+String.format(CuentaAdapter.saldoFormat,saldo));
     }
 
     private void changeTransactionDate(LocalDate fecha) {

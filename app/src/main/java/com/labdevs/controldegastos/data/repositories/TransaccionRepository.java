@@ -1,6 +1,7 @@
 package com.labdevs.controldegastos.data.repositories;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -28,6 +29,7 @@ public class TransaccionRepository {
     }
 
     public void insertarOActualizar(Transaccion transaccion) {
+        Log.d("devtest","se ejecuta insertarOActualizar de TransaccionRepository");
         AppDatabase.databaseWriteExecutor.execute(() -> transaccionDAO.insertOrUpdate(transaccion));
     }
 

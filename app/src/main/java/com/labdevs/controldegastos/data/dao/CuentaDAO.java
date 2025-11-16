@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Delete;
+import androidx.room.Update;
 
 import com.labdevs.controldegastos.data.entity.Cuenta;
 
@@ -16,6 +17,9 @@ public interface CuentaDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertOrUpdate(Cuenta cuenta);
+
+    @Update
+    void update(Cuenta cuenta);
 
     @Delete
     void delete(Cuenta c);
@@ -33,7 +37,7 @@ public interface CuentaDAO {
     int contarPor(String nombre, String tipo);
 
     @Query("SELECT sum(c.saldo) FROM cuentas as c")
-    double sumPorSaldo();
+    LiveData<Double> sumPorSaldo();
 
 
 }

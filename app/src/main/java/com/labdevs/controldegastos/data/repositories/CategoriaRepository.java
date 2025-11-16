@@ -44,4 +44,8 @@ public class CategoriaRepository {
     public void eliminar(Categoria c) {
         ejecutor.execute(() -> categoriaDAO.eliminar(c));
     }
+
+    public List<Categoria> listarCategoriasList() {
+        return categoriaDAO.listarTodasList();
+    }
 }

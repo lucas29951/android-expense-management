@@ -168,10 +168,6 @@ public class AppViewModel extends AndroidViewModel {
 
     // --- Vista Resumen ---
 
-    public LiveData<List<ItemResume>> listarResumeItems(String tipoTrans){
-        return transaccionRepo.listarItemsResume(tipoTrans);
-    }
-
     public LiveData<List<ItemResume>> listarResumeItems(TransaccionRepository.FiltrosTransacciones filtro){
         return transaccionRepo.listarItemsResume(filtro);
     }
@@ -181,7 +177,7 @@ public class AppViewModel extends AndroidViewModel {
     }
 
     public List<Categoria> listarCategorias(){
-        return categoriaRepo.listarCategorias();
+        return categoriaRepo.listarCategoriasList();
     }
 
     public void insertarTransaccion(TransactionFragment.TransaccionWrapper transaccion){

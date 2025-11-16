@@ -23,6 +23,9 @@ public interface CategoriaDAO {
     void eliminar(Categoria c);
 
     @Query("SELECT * FROM categorias")
+    List<Categoria> listarTodasList();
+
+    @Query("SELECT * FROM categorias")
     LiveData<List<Categoria>> listarTodas();
 
     @Query("SELECT * FROM categorias WHERE id = :id")

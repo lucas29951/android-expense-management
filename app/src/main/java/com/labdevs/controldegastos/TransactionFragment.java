@@ -170,7 +170,7 @@ public class TransactionFragment extends Fragment {
         datePicker.show(getParentFragmentManager(), "DatePickerTransaction");
     }
 
-    public enum tipoTransaccion {
+    public enum TipoTransaccion {
         GASTO, INGRESO, TRANSFERENCIA;
 
         public static String getString(int ordinal) {
@@ -200,8 +200,8 @@ public class TransactionFragment extends Fragment {
         binding.spTransactionType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                transaccion.tipo_transaccion = tipoTransaccion.getString((int)id);
-                if (position == tipoTransaccion.TRANSFERENCIA.ordinal()) {
+                transaccion.tipo_transaccion = TipoTransaccion.getString((int)id);
+                if (position == TipoTransaccion.TRANSFERENCIA.ordinal()) {
                     binding.spDestinationAccount.setVisibility(View.VISIBLE);
                 } else {
                     if (binding.spDestinationAccount.getVisibility() == View.VISIBLE) {

@@ -1,5 +1,7 @@
 package com.labdevs.controldegastos;
 
+import static com.labdevs.controldegastos.TransactionFragment.TipoTransaccion.*;
+
 import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;

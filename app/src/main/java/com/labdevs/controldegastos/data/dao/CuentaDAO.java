@@ -18,6 +18,9 @@ public interface CuentaDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertOrUpdate(Cuenta cuenta);
 
+    @Insert
+    void insert(Cuenta cuenta);
+
     @Update
     void update(Cuenta cuenta);
 

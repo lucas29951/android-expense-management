@@ -136,8 +136,10 @@ public class AppViewModel extends AndroidViewModel {
         Cuenta cuenta = new Cuenta(nombre, tipo, Double.parseDouble(saldo));
         if (modificarCuenta){
             cuenta.id = id;
+            cuentaRepo.actualizar(cuenta);
+        } else {
+            cuentaRepo.insertar(cuenta);
         }
-        cuentaRepo.insertarOActualizar(cuenta);
         // una vez que se termina de actulizar o dar de alta una cuenta -> luego, el boton SIEMPRE tiene la funcionalidad de alta
         modificarCuenta = false;
     }

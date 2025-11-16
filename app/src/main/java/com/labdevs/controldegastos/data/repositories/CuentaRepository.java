@@ -19,8 +19,9 @@ public class CuentaRepository {
         cuentaDAO = db.CuentaDAO();
     }
 
-    public void insertarOActualizar(Cuenta cuenta) {
-        AppDatabase.databaseWriteExecutor.execute(() -> cuentaDAO.insertOrUpdate(cuenta));
+
+    public void insertar(Cuenta cuenta){
+        AppDatabase.databaseWriteExecutor.execute(() -> cuentaDAO.insert(cuenta));
     }
 
     public void actualizar(Cuenta cuenta){

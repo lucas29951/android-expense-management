@@ -21,24 +21,14 @@ import java.util.List;
 public class TransaccionRepository {
 
     private final TransaccionDAO transaccionDAO;
-    private List<Transaccion> transacciones;
 
     public TransaccionRepository(Application application) {
         AppDatabase db = AppDatabase.obtenerInstancia(application);
         transaccionDAO = db.TransaccionDAO();
-        transacciones = transaccionDAO.listarTodas();
-    }
-
-    public List<Transaccion> getAllTransacciones() {
-        return transacciones;
     }
 
     public void insertarOActualizar(Transaccion transaccion) {
         AppDatabase.databaseWriteExecutor.execute(() -> transaccionDAO.insertOrUpdate(transaccion));
-    }
-
-    public void eliminar(Transaccion t) {
-        transaccionDAO.eliminar(t);
     }
 
     public List<ItemInforme> listarTransacFiltradasPorFecha(FiltrosTransacciones filtros) {
@@ -167,10 +157,6 @@ public class TransaccionRepository {
                 this.fechaFin = fechaFin;
             }
         }
-    }
-
-    public LiveData<List<ItemResume>> listarItemsResume(String tipoTrans){
-        return transaccionDAO.listarItemsResume(tipoTrans);
     }
 
     public LiveData<List<ItemResume>> listarItemsResume(FiltrosTransacciones filtros) {

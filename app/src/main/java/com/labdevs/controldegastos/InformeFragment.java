@@ -262,5 +262,4 @@ public class InformeFragment extends Fragment {
     private void loadFiltroGenFragment() {
         getChildFragmentManager().beginTransaction().replace(R.id.filtrosFragment, filtroGen).commit();
     }
-
 }

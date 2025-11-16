@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.labdevs.controldegastos.data.database.Converters;
 import com.labdevs.controldegastos.data.entity.Categoria;
@@ -23,7 +24,7 @@ import java.util.List;
 
 public class AppViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<LocalDate> filtroFecha = new MutableLiveData<>();
+    private MutableLiveData<LocalDate> filtroFecha;
     private final TransaccionRepository transaccionRepo;
     private final CategoriaRepository categoriaRepo;
     private MutableLiveData<ErrorET> error = new MutableLiveData<>();
@@ -160,7 +161,9 @@ public class AppViewModel extends AndroidViewModel {
     }
 
     public LiveData<LocalDate> getFiltroFecha() {
-        return filtroFecha;
+        // se crea un observer nuevo, ya que dos fragment distintos no pueden tener el mismo filtro de fecha
+        // para evitar que queden los cambios de uno en otro
+        return filtroFecha = new MutableLiveData<>();
     }
 
     public void setFiltroFecha(LocalDate filtroFecha) {

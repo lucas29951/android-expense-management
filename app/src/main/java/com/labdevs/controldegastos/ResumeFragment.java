@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -62,7 +61,7 @@ public class ResumeFragment extends Fragment {
 
         viewModel.listarResumeItems(filtrosTransaccion).observe(getViewLifecycleOwner(), items -> resumeAdapter.submitList(items));
 
-        viewModel.getFiltroFecha().observe(getViewLifecycleOwner(),fecha -> changeTransactionDate(fecha));
+        viewModel.getFiltroFecha().observe(getViewLifecycleOwner(), this::changeTransactionDate);
 
         binding.fabAddTransanction.setOnClickListener(view -> loadTransactionFragment());
 
@@ -162,7 +161,6 @@ public class ResumeFragment extends Fragment {
     private void loadFiltroGenFragment() {
         getChildFragmentManager().beginTransaction().replace(R.id.resume_filters_fragment, filtroGen).commit();
     }
-
 
     @Override
     public void onResume() {

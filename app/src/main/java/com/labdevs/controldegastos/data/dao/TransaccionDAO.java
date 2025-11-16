@@ -6,7 +6,6 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Delete;
-import androidx.room.Update;
 
 import com.labdevs.controldegastos.data.entity.Transaccion;
 import com.labdevs.controldegastos.data.model.ItemInforme;

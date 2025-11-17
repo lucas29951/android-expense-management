@@ -29,7 +29,7 @@ import java.util.concurrent.Executors;
                 GastoRecurrente.class,
                 Transaccion.class
         },
-        version = 2
+        version = 3
 )
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -58,10 +58,10 @@ public abstract class AppDatabase extends RoomDatabase {
                                         CategoriaDAO catDAO = database.CategoriaDAO();
 
                                         CuentaDAO cuentasDAO = database.CuentaDAO();
-                                        cuentasDAO.insertOrUpdate(new Cuenta("Juan","Efectivo",2250000.0));
-                                        cuentasDAO.insertOrUpdate(new Cuenta("Maria","Tarjeta de Credito",1100000.0));
-                                        cuentasDAO.insertOrUpdate(new Cuenta("Jose","Tarjeta de Credito",2001.0));
-                                        cuentasDAO.insertOrUpdate(new Cuenta("test","Tarjeta de Credito",1000.0));
+                                        cuentasDAO.insertOrUpdate(new Cuenta("Efectivo","Efectivo",0));
+                                        //cuentasDAO.insertOrUpdate(new Cuenta("Maria","Tarjeta de Credito",1100000.0));
+                                        //cuentasDAO.insertOrUpdate(new Cuenta("Jose","Tarjeta de Credito",2001.0));
+                                        //cuentasDAO.insertOrUpdate(new Cuenta("test","Tarjeta de Credito",1000.0));
 
                                         // categorias por defecto
                                         catDAO.insertar(new Categoria("Comida", "cat_ico_comida", true));
@@ -72,7 +72,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                         catDAO.insertar(new Categoria("Viaje", "cat_ico_viajes", true));
 
                                         TransaccionDAO transaccionesDAO = database.TransaccionDAO();
-                                        transaccionesDAO.insertOrUpdate(new Transaccion(194107.0,Converters.toDate("2025-09-15 07:12:31"),"NULL","Ingreso",2,2,2));
+                                        /*transaccionesDAO.insertOrUpdate(new Transaccion(194107.0,Converters.toDate("2025-09-15 07:12:31"),"NULL","Ingreso",2,2,2));
                                         transaccionesDAO.insertOrUpdate(new Transaccion(144158.0,Converters.toDate("2025-09-15 18:42:07"),"NULL","Gasto",3,1,1));
                                         transaccionesDAO.insertOrUpdate(new Transaccion(139968.0,Converters.toDate("2025-07-10 12:15:56"),"NULL","Ingreso",2,2,2));
                                         transaccionesDAO.insertOrUpdate(new Transaccion(39344.0,Converters.toDate("2025-07-11 23:59:34"),"NULL","Gasto",5,1,1));
@@ -121,7 +121,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                         transaccionesDAO.insertOrUpdate(new Transaccion(103990.0,Converters.toDate("2025-07-25 06:39:19"),"NULL","Gasto",3,1,1));
                                         transaccionesDAO.insertOrUpdate(new Transaccion(95708.0,Converters.toDate("2025-07-22 09:07:35"),"NULL","Ingreso",3,1,1));
                                         transaccionesDAO.insertOrUpdate(new Transaccion(67685.0,Converters.toDate("2025-09-05 21:55:48"),"NULL","Gasto",4,1,1));
-                                        transaccionesDAO.insertOrUpdate(new Transaccion(17990.0,Converters.toDate("2025-08-12 17:50:59"),"NULL","Ingreso",2,2,2));
+                                        transaccionesDAO.insertOrUpdate(new Transaccion(17990.0,Converters.toDate("2025-08-12 17:50:59"),"NULL","Ingreso",2,2,2));*/
                                     });
                                 }
                             })

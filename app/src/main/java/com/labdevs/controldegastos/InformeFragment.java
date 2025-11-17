@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 import static com.labdevs.controldegastos.data.repositories.TransaccionRepository.FiltrosTransacciones.*;
 
 public class InformeFragment extends Fragment {
@@ -41,6 +42,24 @@ public class InformeFragment extends Fragment {
     private CustomLegendAdapter legendAdapter;
     private final String[] tiposTransaccion = {"ingreso","gasto"};
     private FragmentInformeBinding binding;
+
+    public static final int[] COLORS = {
+            rgb("#2ecc71"),
+            rgb("#f1c40f"),
+            rgb("#e74c3c"),
+            rgb("#3498db"),
+            rgb("#9b59b6"),
+            rgb("#1abc9c"),
+            rgb("#16a085"),
+            rgb("#f39c12"),
+            rgb("#e67e22"),
+            rgb("#d35400"),
+            rgb("#34495e"),
+            rgb("#7f8c8d"),
+            rgb("#95a5a6"),
+            rgb("#c0392b"),
+            rgb("#8e44ad")
+    };
 
     public InformeFragment() {
         super();
@@ -201,7 +220,7 @@ public class InformeFragment extends Fragment {
     private void setPieDataSet(PieChart chart) {
         PieDataSet dataSet = new PieDataSet(values, "Categorias");
         dataSet.setDrawValues(false);
-        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setColors(COLORS);
 
         PieData data = new PieData(dataSet);
         chart.setData(data);

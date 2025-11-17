@@ -16,7 +16,6 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.labdevs.controldegastos.data.model.ItemInforme;
 import com.labdevs.controldegastos.data.repositories.TransaccionRepository;
 import com.labdevs.controldegastos.databinding.FragmentInformeBinding;
@@ -27,6 +26,7 @@ import java.util.List;
 
 import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 import static com.labdevs.controldegastos.data.repositories.TransaccionRepository.FiltrosTransacciones.*;
+import static com.labdevs.controldegastos.utils.UiUtils.Formats.getAmountFormatedStr;
 
 public class InformeFragment extends Fragment {
 
@@ -131,7 +131,7 @@ public class InformeFragment extends Fragment {
     private void initializeChart(PieChart grafico, List<ItemInforme> items) {
         values = getPieEntries(items);
         Float totalValue = getFloatTotalValue(values);
-        String totalValueStr = String.format(totalValueFormat, totalValue);
+        String totalValueStr = getAmountFormatedStr(totalValue);
         setTotalText(totalValueStr);
         initializeChart(grafico, totalValueStr);
     }
@@ -139,19 +139,19 @@ public class InformeFragment extends Fragment {
     private void loadChart() {
         values = getPieEntries(viewModel.listarTransacciones(filtrosTransaccion));
         Float totalValue = getFloatTotalValue(values);
-        String totalValueStr = String.format(totalValueFormat, totalValue);
+        String totalValueStr = getAmountFormatedStr(totalValue);
         setTotalText(totalValueStr);
         changeChartCenterText(totalValueStr);
         setPieDataSet(binding.graficoInforme);
     }
 
     private void changeChartCenterText(String total) {
-        binding.graficoInforme.setCenterText("Total\n$ " + total);
+        binding.graficoInforme.setCenterText("Total\n" + total);
         binding.graficoInforme.invalidate();
     }
 
     private void setTotalText(String total) {
-        binding.total.setText("$" + total);
+        binding.total.setText(total);
     }
 
     private Float getFloatTotalValue(List<PieEntry> entries) {

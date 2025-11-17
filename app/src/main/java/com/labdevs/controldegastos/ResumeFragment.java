@@ -1,5 +1,7 @@
 package com.labdevs.controldegastos;
 
+import static com.labdevs.controldegastos.utils.UiUtils.Formats.*;
+
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -71,7 +73,7 @@ public class ResumeFragment extends Fragment {
     }
 
     private void setTotalCardTitle(Double saldo) {
-        binding.tvCardTotalAmount.setText("$ "+String.format(CuentaAdapter.saldoFormat,saldo));
+        binding.tvCardTotalAmount.setText(getAmountFormatedStr(saldo));
     }
 
     private void changeTransactionDate(LocalDate fecha) {

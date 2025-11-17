@@ -18,7 +18,7 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
     private final MainActivity mainActivity;
 
     private List<Cuenta> cuentas;
-    public static final String saldoFormat = "%1$,.0f";
+    public static final String saldoFormat = "%1$.0f";
     private AppViewModel viewModel;
     private boolean isDeleteAccountIcon = false;
 

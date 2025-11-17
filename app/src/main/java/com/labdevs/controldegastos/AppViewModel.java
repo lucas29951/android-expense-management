@@ -1,13 +1,14 @@
 package com.labdevs.controldegastos;
 
 import static com.labdevs.controldegastos.TransactionFragment.TipoTransaccion.*;
+import static com.labdevs.controldegastos.utils.UiUtils.Formats.getAmountFormatedStr;
 
 import android.app.Application;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 
 import com.labdevs.controldegastos.data.database.Converters;
 import com.labdevs.controldegastos.data.entity.Categoria;
@@ -29,6 +30,7 @@ public class AppViewModel extends AndroidViewModel {
     private final CategoriaRepository categoriaRepo;
     private MutableLiveData<ErrorET> error = new MutableLiveData<>();
     private boolean transaccionValida;
+    private ErrorET errorTransaccion;
     private final LiveData<List<Cuenta>> allCuentas;
     private CuentaRepository cuentaRepo;
     private MutableLiveData<Cuenta> cuentaSelecionadaEliminar = new MutableLiveData<>();
@@ -104,11 +106,11 @@ public class AppViewModel extends AndroidViewModel {
         this.modificarCuenta = modificarCuenta;
     }
 
-    public boolean isCuentaValida(){
+    public boolean isCuentaValida() {
         return cuentaValida;
     }
 
-    public Cuenta buscarCuenta(int id){
+    public Cuenta buscarCuenta(int id) {
         return cuentaRepo.buscarPor(id);
     }
 
@@ -124,17 +126,17 @@ public class AppViewModel extends AndroidViewModel {
             error.setValue(new ErrorET("Rango de saldo invalido!", R.id.et_initial_balance));
             return;
         }
-        if (!modificarCuenta){
-            if (cuentaRepo.contarPor(nombre,tipo) > 0){
+        if (!modificarCuenta) {
+            if (cuentaRepo.contarPor(nombre, tipo) > 0) {
                 hasExecutedOnce = false;
-                error.setValue(new ErrorET("Ya existe cuenta con ese mismo nombre y tipo",R.id.et_account_name));
+                error.setValue(new ErrorET("Ya existe cuenta con ese mismo nombre y tipo", R.id.et_account_name));
                 return;
             }
         }
         cuentaValida = true;
 
         Cuenta cuenta = new Cuenta(nombre, tipo, Double.parseDouble(saldo));
-        if (modificarCuenta){
+        if (modificarCuenta) {
             cuenta.id = id;
             cuentaRepo.actualizar(cuenta);
         } else {
@@ -148,11 +150,11 @@ public class AppViewModel extends AndroidViewModel {
         cuentaRepo.elimiar(cuenta);
     }
 
-    public boolean hasExecutedOnce(){
+    public boolean hasExecutedOnce() {
         return hasExecutedOnce;
     }
 
-    public void hasExecutedOnce(boolean hasExecutedOnce){
+    public void hasExecutedOnce(boolean hasExecutedOnce) {
         this.hasExecutedOnce = hasExecutedOnce;
     }
 
@@ -177,32 +179,34 @@ public class AppViewModel extends AndroidViewModel {
 
     // --- Vista Resumen ---
 
-    public LiveData<List<ItemResume>> listarResumeItems(TransaccionRepository.FiltrosTransacciones filtro){
+    public LiveData<List<ItemResume>> listarResumeItems(TransaccionRepository.FiltrosTransacciones filtro) {
         return transaccionRepo.listarItemsResume(filtro);
     }
 
-    public LiveData<Double> getSaldoCuentas(){
+    public LiveData<Double> getSaldoCuentas() {
         return saldoCuentas;
     }
 
-    public List<Categoria> listarCategorias(){
+    public List<Categoria> listarCategorias() {
         return categoriaRepo.listarCategoriasList();
     }
 
-    public void insertarTransaccion(TransactionFragment.TransaccionWrapper transaccionWrapper){
+    public void insertarTransaccion(TransactionFragment.TransaccionWrapper transaccionWrapper) {
         transaccionValida = false;
-        if (transaccionWrapper.monto.isEmpty()){
-            error.setValue(new ErrorET("El monto es obligario", R.id.et_amount));
+        if (transaccionWrapper.monto.isEmpty()) {
+            errorTransaccion = new ErrorET("El monto es obligario", R.id.et_amount);
             return;
         } else if (!transaccionWrapper.monto.matches("\\d+")) {
-            error.setValue(new ErrorET("Monto invalido (no se permite caracteres extaños)", R.id.et_amount));
+            errorTransaccion = new ErrorET("Monto invalido (no se permite caracteres extaños)", R.id.et_amount);
             return;
         } else if (transaccionWrapper.monto.length() > 12) {
-            error.setValue(new ErrorET("Rango de monto invalido!", R.id.et_amount));
+            errorTransaccion = new ErrorET("Rango de monto invalido!", R.id.et_amount);
             return;
         }
-        transaccionValida = true;
 
+        // aun no esta valida la transaccion
+        // falta validar que no se supere el saldo en un gasto/transferencia
+        // pero se crea un contenedor para los datos
         Transaccion transaccion = new Transaccion(Double.parseDouble(transaccionWrapper.monto),
                 Converters.toDate(transaccionWrapper.fecha_hora),
                 transaccionWrapper.comentario,
@@ -211,26 +215,50 @@ public class AppViewModel extends AndroidViewModel {
                 transaccionWrapper.id_cuenta_origen,
                 transaccionWrapper.id_cuenta_destino);
 
-        actulizarSaldoCuenta(transaccion);
+        Cuenta cuentaOrigen = cuentaRepo.buscarPor(transaccion.id_cuenta_origen);
+        Cuenta cuentaDestino = cuentaOrigen;
+        if (transaccion.tipo_transaccion.equals(getString(GASTO.ordinal()))) {
+            if (cuentaOrigen.saldo < transaccion.monto) {
+                errorTransaccion = new ErrorET("El gasto no debe de superar el saldo actual de la cuenta : nombre: " + cuentaOrigen.nombre + " saldo: " + getAmountFormatedStr(cuentaOrigen.saldo),
+                        R.id.et_amount);
+                return;
+            }
+        } else if (transaccion.tipo_transaccion.equals(getString(TRANSFERENCIA.ordinal()))) {
+            cuentaDestino = cuentaRepo.buscarPor(transaccion.id_cuenta_destino);
+            if (cuentaOrigen.saldo < transaccion.monto) {
+                errorTransaccion = new ErrorET("La transferencia no debe de superar el saldo actual de la cuenta : nombre: " + cuentaOrigen.nombre + " saldo: " + getAmountFormatedStr(cuentaOrigen.saldo),
+                        R.id.et_amount);
+                return;
+            }
+        }
+        transaccionValida = true;
+
+
+        actulizarSaldoCuenta(transaccion, cuentaOrigen, cuentaDestino);
         transaccionRepo.insertarOActualizar(transaccion);
+        errorTransaccion = null;
     }
 
-    private void actulizarSaldoCuenta(Transaccion transaccion) {
-        Cuenta cuenta = cuentaRepo.buscarPor(transaccion.id_cuenta_origen);
-        if (transaccion.tipo_transaccion.equals(getString(GASTO.ordinal()))){
-            cuenta.saldo -= transaccion.monto;
+    private void actulizarSaldoCuenta(Transaccion transaccion, Cuenta cuentaOrigen, Cuenta cuentaDestino) {
+        if (transaccion.tipo_transaccion.equals(getString(GASTO.ordinal()))) {
+            cuentaOrigen.saldo -= transaccion.monto;
         } else if (transaccion.tipo_transaccion.equals(getString(INGRESO.ordinal()))) {
-            cuenta.saldo += transaccion.monto;
+            cuentaOrigen.saldo += transaccion.monto;
         } else { //TRANSFERENCIA
-            cuenta = cuentaRepo.buscarPor(transaccion.id_cuenta_destino);
-            cuenta.saldo += transaccion.monto;
-            cuentaRepo.actualizar(cuenta);
+            cuentaOrigen.saldo -= transaccion.monto;
+            cuentaDestino.saldo += transaccion.monto;
+            cuentaRepo.actualizar(cuentaDestino);
+            cuentaRepo.actualizar(cuentaOrigen);
             return;
         }
-        cuentaRepo.actualizar(cuenta);
+        cuentaRepo.actualizar(cuentaOrigen);
     }
 
     public boolean isTransaccionValida() {
         return transaccionValida;
+    }
+
+    public ErrorET getErrorTransaccion() {
+        return errorTransaccion;
     }
 }

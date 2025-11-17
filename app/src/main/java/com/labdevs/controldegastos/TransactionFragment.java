@@ -139,6 +139,17 @@ public class TransactionFragment extends Fragment {
         viewModel.insertarTransaccion(transaccion);
         if (viewModel.isTransaccionValida()){
             getActivity().getOnBackPressedDispatcher().onBackPressed();
+        } else {
+            AppViewModel.ErrorET errorTransaccion = viewModel.getErrorTransaccion();
+            if (errorTransaccion !=null){
+                setUpErrorHandling(errorTransaccion);
+            }
+        }
+    }
+
+    private void setUpErrorHandling(AppViewModel.ErrorET errorTransaccion) {
+        if (errorTransaccion.etId() == R.id.et_amount){
+            binding.etAmount.setError(errorTransaccion.message());
         }
     }
 

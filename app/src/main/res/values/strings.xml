@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ControlDeGastos</string>
+    <string name="app_name">ControlAR</string>
     <string name="titulo_principal">Inicio</string>
     <string name="label_menu_item1">Inicio</string>
     <string name="label_menu_item2">Cuentas</string>

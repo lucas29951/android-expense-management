@@ -38,11 +38,11 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
     @Override
     public void onBindViewHolder(@NonNull ListAccountaHolder holder, int position) {
         Cuenta cuenta = cuentas.get(position);
-        setAccountIcon(cuenta.tipo,holder);
+        setAccountIcon(cuenta.tipo, holder);
         holder.tvAccountName.setText(cuenta.nombre);
-        holder.getTvAccountBalance.setText(String.format(saldoFormat,cuenta.saldo));
+        holder.getTvAccountBalance.setText(String.format(saldoFormat, cuenta.saldo));
 
-        if (!isDeleteAccountIcon){
+        if (!isDeleteAccountIcon) {
             holder.modifyDeleteAccountIcon.setImageResource(R.drawable.edit_24px);
             holder.modifyDeleteAccountIcon.setOnClickListener(view -> {
                 viewModel.hasExecutedOnce(false);
@@ -58,15 +58,21 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
         }
     }
 
-    public void chageAccountIconFunction(){
+    public void chageAccountIconFunction() {
         isDeleteAccountIcon = !isDeleteAccountIcon;
         notifyDataSetChanged();
     }
 
     private void setAccountIcon(String tipo, ListAccountaHolder holder) {
-        switch (tipo){
-            case "Efectivo": holder.accountIcon.setImageResource(R.drawable.payments_24px);
-            case "Tarjeta de Credito": holder.accountIcon.setImageResource(R.drawable.credit_card_24px);
+        String lowerCase = tipo.toLowerCase();
+        if (lowerCase.contains("efectivo")) {
+            holder.accountIcon.setImageResource(R.drawable.attach_money_24px);
+        } else if (lowerCase.contains("tarjeta de credito")) {
+            holder.accountIcon.setImageResource(R.drawable.credit_card_24px);
+        } else if (lowerCase.contains("tarjeta de debito")) {
+            holder.accountIcon.setImageResource(R.drawable.payments_24px);
+        } else {
+            holder.accountIcon.setImageResource(R.drawable.cat_ico_ahorros);
         }
     }
 
@@ -80,7 +86,7 @@ public class CuentaAdapter extends RecyclerView.Adapter<CuentaAdapter.ListAccoun
         notifyDataSetChanged();
     }
 
-    public class ListAccountaHolder extends RecyclerView.ViewHolder{
+    public class ListAccountaHolder extends RecyclerView.ViewHolder {
 
         ImageView accountIcon;
         TextView tvAccountName;

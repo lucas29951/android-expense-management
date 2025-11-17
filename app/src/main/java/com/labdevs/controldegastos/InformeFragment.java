@@ -47,8 +47,7 @@ public class InformeFragment extends Fragment {
         // TODO: fecha para testing, cambiar a now()
         fecha = LocalDate.of(2025, 8, 1);
 
-        // TODO: asociar a la cuenta del usuario
-        cuentaUsuario = 1;
+        cuentaUsuario = -1;
         // Al inicar la vista ingreso por default viene seleccionado
         tipoTrans = "ingreso";
 

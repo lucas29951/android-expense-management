@@ -41,11 +41,11 @@ public class TransaccionRepository {
 
         switch (filtros.getTipoFiltroFecha()) {
             case PERIODO ->
-                    lista = transaccionDAO.listarPorPeriodo(filtroCuenta, filtroTipoTrans, periodo.getFechaInicio(), periodo.getFechaFin());
+                    lista = transaccionDAO.listarPorPeriodo(filtroTipoTrans, periodo.getFechaInicio(), periodo.getFechaFin());
             case MES ->
-                    lista = transaccionDAO.listarPorMes(filtroCuenta, filtroTipoTrans, periodo.getFechaFin());
+                    lista = transaccionDAO.listarPorMes(filtroTipoTrans, periodo.getFechaFin());
             case ANIO ->
-                    lista = transaccionDAO.listarPorAnio(filtroCuenta, filtroTipoTrans, periodo.getFechaFin());
+                    lista = transaccionDAO.listarPorAnio(filtroTipoTrans, periodo.getFechaFin());
         }
 
         return lista;

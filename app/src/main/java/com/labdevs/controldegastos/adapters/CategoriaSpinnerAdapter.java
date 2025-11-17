@@ -15,9 +15,11 @@ import java.util.List;
 public class CategoriaSpinnerAdapter extends BaseAdapter {
 
     private final List<Categoria> listaCategorias;
+    private final Context context;
     private LayoutInflater lInflater;
 
     public CategoriaSpinnerAdapter(Context context, List<Categoria> listaCategorias) {
+        this.context = context;
         lInflater = LayoutInflater.from(context);
         this.listaCategorias = listaCategorias;
     }
@@ -42,8 +44,8 @@ public class CategoriaSpinnerAdapter extends BaseAdapter {
         Categoria categoria = listaCategorias.get(position);
         ListSpinnerItemCategoriaBinding binding = ListSpinnerItemCategoriaBinding.inflate(lInflater,parent,false);
 
-        // TODO: implementar logica para establecer el icono de cada categoria
-        binding.categorySpinnerIcon.setImageResource(R.drawable.payments_24px);
+        int idIcono = context.getResources().getIdentifier(categoria.icono, "drawable", context.getPackageName());
+        binding.categorySpinnerIcon.setImageResource(idIcono);
 
         binding.categorySpinnerText.setText(categoria.nombre);
 

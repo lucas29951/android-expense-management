@@ -108,7 +108,7 @@
     <!-- STRINGS CATEGORIAS VIEW -->
     <string name="categiria_title">Categorias</string>
     <string name="boton_añadir">Nueva Categoria</string>
-    <string name="boton_guardar">Guaradar</string>
+    <string name="boton_guardar">Guardar</string>
     <string name="categoria_nombre">Nombre</string>
     <string name="categoria_icono">Icono:</string>
 </resources>

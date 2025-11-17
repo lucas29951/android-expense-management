@@ -1,5 +1,6 @@
 package com.labdevs.controldegastos;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,9 @@ public class ResumeAdapter extends ListAdapter<ItemResume, ResumeAdapter.ListRes
     @Override
     public void onBindViewHolder(@NonNull ListResumeItemHolder holder, int position) {
         ItemResume item = getItem(position);
-        holder.ivIcon.setImageResource(R.drawable.payments_24px);
+        Context context = holder.itemView.getContext();
+        int idIcono = context.getResources().getIdentifier(item.icono, "drawable", context.getPackageName());
+        holder.ivIcon.setImageResource(idIcono);
         holder.tvTitleTransaction.setText(item.tipo_transaccion);
         holder.tvCategoryTransaction.setText(item.nombre);
         holder.tvAmountTransaction.setText(String.format(mainActivity.getString(R.string.total_amount_format),item.monto));

@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="?attr/materialIconButtonStyle"
-        app:icon="@drawable/arrow_back_24px"
+        app:icon="@drawable/arrow_back_ios_24px"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:rotationY="180"
-        app:icon="@drawable/arrow_back_24px"
+        app:icon="@drawable/arrow_back_ios_24px"
         app:layout_constraintEnd_toEndOf="parent"/>
 
 

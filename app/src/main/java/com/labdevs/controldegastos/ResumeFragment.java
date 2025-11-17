@@ -35,8 +35,7 @@ public class ResumeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
         tipoTrans = "ingreso";
-        // TODO: fecha para testing, cambiar a now()
-        fecha = LocalDate.of(2025, 8, 1);
+        fecha = LocalDate.now();
         filtroGen = new FiltroGeneralFragment(fecha, FiltroGeneralFragment.TipoFiltroGen.MENSUAL);
         filtrosTransaccion = new TransaccionRepository.FiltrosTransacciones(-1,tipoTrans, TransaccionRepository.FiltrosTransacciones.TipoFiltroFecha.MES,fecha);
     }

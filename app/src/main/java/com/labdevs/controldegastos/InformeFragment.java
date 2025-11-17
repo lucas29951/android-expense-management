@@ -63,8 +63,7 @@ public class InformeFragment extends Fragment {
 
     public InformeFragment() {
         super();
-        // TODO: fecha para testing, cambiar a now()
-        fecha = LocalDate.of(2025, 8, 1);
+        fecha = LocalDate.now();
 
         cuentaUsuario = -1;
         // Al inicar la vista ingreso por default viene seleccionado
